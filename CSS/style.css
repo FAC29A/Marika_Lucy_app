@@ -1,0 +1,64 @@
+/* Reset default margin and padding */
+body, h1, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+/* Logo styles */
+.logo img {
+    max-width: 100px;
+    height: auto;
+}
+
+/* Search styles */
+.search-box-icon {
+    display: flex;
+    align-items: center;
+}
+
+.search-box-icon i {
+    margin-right: 10px; 
+}
+
+/* Input field styles  */
+input[type="text"] {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Buttons styles */
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+/* Button styles*/
+button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* GitHub link styles */
+.github-link {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
