@@ -3,4 +3,5 @@
     --spacing-unit: 8px;
     --spacing-double: calc(2 * var(--spacing-unit));
     --spacing-half: calc(0.5 * var(--spacing-unit));
+    --screen-margin: 60px;
 }

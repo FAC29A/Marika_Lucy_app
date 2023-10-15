@@ -3,51 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="./CSS/variables.css">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <title>Earth Vs Mars Weather</title>
 </head>
 <body>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./CSS/variables.css">
-        <link rel="stylesheet" href="./CSS/style.css">
-        <title>Navbar</title>
-    </head>
-    <body>
-        <nav class="navbar">
-            <!-- Logo -->
-            <div class="logo">
-                <img src=" " alt="Logo">
+    <nav class="navbar">
+        <!-- Logo -->
+        <div class="logo">
+            <img src="./images/icons8-weather.svg" alt="Weather Logo">
+          </div>                   
+        <!-- Location Search -->
+        <div class="search">
+            <button class="search-box-icon">
+                <i class="fa fa-search"></i>
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Search for a location">
             </div>
-            <!-- Location Search -->
-            <div class="search">
-                <div class="search-box-icon">
-                    <a>
-                    <img href="" alt="Search Icon">
-                    </a>
-                </div>
-                <div></div>
-                    <input type="text" placeholder="Search for a location">
-                </div>
-            </div>
-            <!-- Buttons -->
-            <div class="buttons">
-                <!-- Light/Dark Mode Toggle -->
-                <button class="light-dark-toggle">Light/Dark</button>
-                <!-- Fahrenheit/Celsius Toggle -->
-                <button class="fahrenheit-celsius-toggle">°F/°C</button>
-                <!-- GitHub Repository Link -->
-                <a href=" " class="github-link" target="_blank">
+        </div>
+        <!-- Buttons -->
+        <div class="buttons">
+            <!-- Light/Dark Mode Toggle -->
+            <button class="light-dark-toggle">
+                <i class="fa fa-sun"></i>
+                <i class="fa fa-moon" style="display: none;"></i>
+            </button>
+            <!-- Fahrenheit/Celsius Toggle -->
+            <button class="fahrenheit-celsius-toggle">°F/°C</button>
+            <!-- GitHub Repository Link -->
+            <a href=" " class="github-link" target="_blank">
+                <button class="git">
                     <i class="repository"></i> GitHub
-                </a>
-            </div>
-        </nav>
-    </body>
-    </html>
-    
+                </button>
+            </a>
+        </div>
+    </nav>        
 </body>
 </html>
+
+
  
