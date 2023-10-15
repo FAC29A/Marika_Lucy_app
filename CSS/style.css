@@ -51,6 +51,7 @@ body, h1, h2, p, ul, li {
     border-radius: 4px;
     width: 400px;
     height: 30px; 
+    padding-left: 10px;
 }
 
 /* Common styles for the buttons */

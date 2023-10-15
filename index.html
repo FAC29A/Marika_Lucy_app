@@ -9,39 +9,47 @@
     <title>Earth Vs Mars Weather</title>
 </head>
 <body>
-    <nav class="navbar">
-        <!-- Logo -->
-        <div class="logo">
-            <img src="./images/icons8-weather.svg" alt="Weather Logo">
-          </div>                   
-        <!-- Location Search -->
-        <div class="search">
-            <button class="search-box-icon">
-                <i class="fa fa-search"></i>
-            </button>
-            <div class="search-box">
-                <input type="text" placeholder="Search for a location">
-            </div>
-        </div>
-        <!-- Buttons -->
-        <div class="buttons">
-            <!-- Light/Dark Mode Toggle -->
-            <button class="light-dark-toggle">
-                <i class="fa fa-sun"></i>
-                <i class="fa fa-moon" style="display: none;"></i>
-            </button>
-            <!-- Fahrenheit/Celsius Toggle -->
-            <button class="fahrenheit-celsius-toggle">°F/°C</button>
-            <!-- GitHub Repository Link -->
-            <a href=" " class="github-link" target="_blank">
-                <button class="git">
-                    <i class="repository"></i> GitHub
+    <header>
+        <nav class="navbar">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="./images/icons8-weather.svg" alt="Earth Vs Mars Weather Logo">
+            </div>                   
+            <!-- Location Search -->
+            <div class="search">
+                <button class="search-box-icon" aria-label="Search Button">
+                    <i class="fa fa-search"></i>
                 </button>
-            </a>
-        </div>
-    </nav>        
+                <label for="location-search"></label>
+                <div class="search-box">
+                    <input type="text" id="location-search" placeholder="Search for a location" aria-label="Location Search">
+                </div>
+            </div>
+            <!-- Buttons -->
+            <div class="buttons">
+                <!-- Light/Dark Mode Toggle -->
+                <button class="light-dark-toggle" aria-label="Toggle Light/Dark Mode">
+                    <i class="fa fa-sun"></i>
+                    <i class="fa fa-moon" style="display: none;"></i>
+                </button>
+                <!-- Fahrenheit/Celsius Toggle -->
+                <button class="fahrenheit-celsius-toggle" aria-label="Toggle Fahrenheit or Celsius">°F/°C</button>
+                <!-- GitHub Repository Link -->
+                <a href=" " class="github-link" target="_blank">
+                    <button class="git" aria-label="GitHub Repository Link">
+                        <i class="repository"></i> GitHub
+                    </button>
+                </a>
+            </div>
+        </nav> 
+    </header> 
+    <main>
+
+    </main>      
 </body>
 </html>
+
+
 
 
  
