@@ -3,49 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="./CSS/variables.css">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <title>Earth Vs Mars Weather</title>
 </head>
 <body>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/CSS/style.css">
-        <title>Navbar</title>
-    </head>
-    <body>
+    <header>
         <nav class="navbar">
             <!-- Logo -->
             <div class="logo">
-                <img src=" " alt="Logo">
-            </div>
+                <img src="./images/icons8-weather.svg" alt="Earth Vs Mars Weather Logo">
+            </div>                   
             <!-- Location Search -->
             <div class="search">
-                <div class="search-box-icon">
-                    <a>
-                    <img href="https://images.unsplash.com/photo-1593642702620-949ed8508c2d" alt="Search Icon">
-                    </a>
-                </div>
-                    <input type="text" placeholder="Search for a location">
+                <button class="search-box-icon" aria-label="Search Button">
+                    <i class="fa fa-search"></i>
+                </button>
+                <label for="location-search"></label>
+                <div class="search-box">
+                    <input type="text" id="location-search" placeholder="Search for a location" aria-label="Location Search">
                 </div>
             </div>
             <!-- Buttons -->
             <div class="buttons">
                 <!-- Light/Dark Mode Toggle -->
-                <button class="light-dark-toggle">Light/Dark</button>
+                <button class="light-dark-toggle" aria-label="Toggle Light/Dark Mode">
+                    <i class="fa fa-sun"></i>
+                    <i class="fa fa-moon" style="display: none;"></i>
+                </button>
                 <!-- Fahrenheit/Celsius Toggle -->
-                <button class="fahrenheit-celsius-toggle">°F/°C</button>
+                <button class="fahrenheit-celsius-toggle" aria-label="Toggle Fahrenheit or Celsius">°F/°C</button>
                 <!-- GitHub Repository Link -->
                 <a href=" " class="github-link" target="_blank">
-                    <i class="repository"></i> GitHub
+                    <button class="git" aria-label="GitHub Repository Link">
+                        <i class="repository"></i> GitHub
+                    </button>
                 </a>
             </div>
-        </nav>
-    </body>
-    </html>
-    
+        </nav> 
+    </header> 
+    <main>
+        <div class="container">
+
+        </div>
+
+    </main>   
+    <footer>
+        <div class="navbar">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="./images/icons8-weather.svg" alt="Earth Vs Mars Weather Logo">
+            </div>
+            <!-- Long Button -->
+            <button class="long-button">footer</button>
+            <!-- Scroll-to-Top Button -->
+            <button class="scroll-top-button">Scroll to Top</button>
+        </div>
+    </footer>
+       
 </body>
 </html>
+
+
+
+
  
