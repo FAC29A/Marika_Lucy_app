@@ -1,7 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+
 /* Reset default margin and padding */
-body, h1, h2, p, ul, li {
+body,
+h1,
+h2,
+p,
+ul,
+li {
     margin: 0;
     padding: 0;
+}
+
+/* Main style */
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    /* max-width: 1200px; */
 }
 
 /* Navbar styles */
@@ -16,20 +35,21 @@ body, h1, h2, p, ul, li {
 }
 
 /* Logo styles */
-.logo  {
-    width: 50px; 
-    height: 40px; 
+.logo {
+    width: 50px;
+    height: 40px;
     padding-left: 80px;
-    margin-right: -170px; /* Adjusted to reduce space between logo and search */
+    margin-right: -170px;
+    /* Adjusted to reduce space between logo and search */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 /* Search-box-icon styles */
-.search-box-icon { 
+.search-box-icon {
     width: 50px;
-    height: 40px; 
+    height: 40px;
 }
 
 /* Location Search styles */
@@ -43,14 +63,15 @@ body, h1, h2, p, ul, li {
 .search-box {
     display: flex;
     align-items: center;
-    flex: 1; /* Allow the input to expand and fill available space */
+    flex: 1;
+    /* Allow the input to expand and fill available space */
 }
 
 .search-box input[type="text"] {
     border: none;
     border-radius: 4px;
     width: 400px;
-    height: 30px; 
+    height: 30px;
     padding-left: 10px;
 }
 
@@ -58,12 +79,12 @@ body, h1, h2, p, ul, li {
 .buttons {
     display: flex;
     align-items: center;
-    gap: 10px; 
+    gap: 10px;
 }
 
 .buttons button {
-    width: 70px; 
-    height: 40px; 
+    width: 70px;
+    height: 40px;
     padding: var(--spacing-half) var(--spacing-double);
     background-color: #007bff;
     border: none;
@@ -79,17 +100,108 @@ body, h1, h2, p, ul, li {
 
 /* Style for the icons */
 .light-dark-toggle {
-    margin-left: -180px; /* Adjusted to reduce space between elements */
+    margin-left: -180px;
+    /* Adjusted to reduce space between elements */
 }
 
 .light-dark-toggle i {
-    font-size: 24px; 
+    font-size: 24px;
     margin-right: 4px;
 }
 
 /* Additional styles for GitHub link */
 .git {
-    margin-right: 90px; /* Adjusted margin for GitHub link */
+    margin-right: 90px;
+    /* Adjusted margin for GitHub link */
+}
+
+/* Filter date buttons */
+
+.date-buttons {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 16px;
+    /* overflow-x: scroll; */
+    scroll-behavior: smooth;
+}
+
+.filter-btn {
+    margin-right: 16px;
+    padding: 10px 12px;
+    border-radius: calc(8px / 2);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+}
+
+.filter-btn:last-child {
+    margin-right: 0;
+}
+
+.filter-btn:hover {
+    transform: scale(0.98);
+}
+
+.filter-btn:focus-visible {
+    outline: none;
+    transform: scale(0.98);
+}
+
+/* Extended data table */
+
+table {
+    border-collapse: collapse;
+    margin: 0;
+    width: 100%;
+}
+table tr {
+    padding: .45rem;
+}
+thead tr{
+    background-color: chocolate;
+}
+tbody tr:nth-child(even){
+    background-color: #eaeaea;
+}
+table th,
+table td {
+    font-size: 1em;
+    padding: 1em;
+    text-align: center;
+}
+thead th{
+    color: azure;
+    font-size: 1.15em;
+}
+
+@media (max-width:440px) {
+    table {
+        border: 3px solid black;
+    }
+    table thead tr {
+        display: none;
+    }
+    table tr {
+        display: block;
+    }
+    table th, table td {
+        padding: .5em;
+    }
+    table td {
+        text-align: right;
+        display: block;
+        font-size: 1em;
+    }
+    table td::before {
+        content: attr(data-title);
+        float: left;
+    }
+    tbody tr:nth-child(even){
+        background-color: #eaeaea;
+        /* color:azure */
+    }
 }
 
 /* Footer styles */
@@ -121,7 +233,7 @@ footer .logo {
 
 /* Long Button styles */
 footer .long-button {
-    width: 800px; 
+    width: 800px;
     height: 40px;
     padding: var(--spacing-half) var(--spacing-double);
     background-color: #007bff;
@@ -138,7 +250,7 @@ footer .long-button {
 
 /* Scroll-to-Top Button styles */
 footer .scroll-top-button {
-    width: 70px; 
+    width: 70px;
     height: 40px;
     padding: var(--spacing-half);
     background-color: #007bff;
@@ -156,6 +268,6 @@ footer .scroll-top-button {
 
 /* Style the container */
 .container {
-    background-color: #fff; 
-    padding: 100px; 
+    background-color: #fff;
+    padding: 100px;
 }
