@@ -16,15 +16,18 @@
                 <img src="./images/icons8-weather.svg" alt="Earth Vs Mars Weather Logo">
             </div>                   
             <!-- Location Search -->
-            <div class="search">
-                <button class="search-box-icon" aria-label="Search Button">
-                    <i class="fa fa-search"></i>
-                </button>
-                <label for="location-search"></label>
-                <div class="search-box">
-                    <input type="text" id="location-search" placeholder="Search for a location" aria-label="Location Search">
+            <form id="weather-search-form">
+                <div class="search">
+                    <button type="submit" class="search-box-icon" aria-label="Search Button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <div class="search-box">
+                        <input type="text" id="location-search" placeholder="Search for a location" aria-label="Location Search">
+                    </div>
                 </div>
-            </div>
+                <span class="search-msg"></span>
+            </form>
+            
             <!-- Buttons -->
             <div class="buttons">
                 <!-- Light/Dark Mode Toggle -->
@@ -44,6 +47,13 @@
         </nav> 
     </header> 
     <main>
+        <section class="placegrid" id="location-name">
+            <div id="county-post">
+                <h3 id="city"></h3>
+            </div>
+            <p class="forecast-message"></p>
+        </section>
+        
         
             <section class="date-buttons">
                 <button class="filter-btn">1</button>
