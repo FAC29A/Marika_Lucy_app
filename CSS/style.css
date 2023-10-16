@@ -16,7 +16,7 @@ body, h1, h2, p, ul, li {
 }
 
 /* Logo styles */
-.logo {
+.logo  {
     width: 50px; 
     height: 40px; 
     padding-left: 80px;
@@ -90,4 +90,72 @@ body, h1, h2, p, ul, li {
 /* Additional styles for GitHub link */
 .git {
     margin-right: 90px; /* Adjusted margin for GitHub link */
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: var(--spacing-unit) var(--screen-margin);
+}
+
+/* Footer navbar styles (similar to header navbar) */
+footer .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo styles */
+footer .logo {
+    width: 50px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 18px;
+    margin-right: 20px;
+}
+
+
+/* Long Button styles */
+footer .long-button {
+    width: 800px; 
+    height: 40px;
+    padding: var(--spacing-half) var(--spacing-double);
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Scroll-to-Top Button styles */
+footer .scroll-top-button {
+    width: 70px; 
+    height: 40px;
+    padding: var(--spacing-half);
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Style the container */
+.container {
+    background-color: #fff; 
+    padding: 100px; 
 }
