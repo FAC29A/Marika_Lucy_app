@@ -1,3 +1,9 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+  }
+
 /* Reset default margin and padding */
 body, h1, h2, p, ul, li {
     margin: 0;
