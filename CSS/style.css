@@ -147,6 +147,61 @@ body {
     transform: scale(0.98);
 }
 
+/* Extended data table */
+
+table {
+    border-collapse: collapse;
+    margin: 0;
+    width: 100%;
+}
+table tr {
+    padding: .45rem;
+}
+thead tr{
+    background-color: chocolate;
+}
+tbody tr:nth-child(even){
+    background-color: #eaeaea;
+}
+table th,
+table td {
+    font-size: 1em;
+    padding: 1em;
+    text-align: center;
+}
+thead th{
+    color: azure;
+    font-size: 1.15em;
+}
+
+@media (max-width:440px) {
+    table {
+        border: 3px solid black;
+    }
+    table thead tr {
+        display: none;
+    }
+    table tr {
+        display: block;
+    }
+    table th, table td {
+        padding: .5em;
+    }
+    table td {
+        text-align: right;
+        display: block;
+        font-size: 1em;
+    }
+    table td::before {
+        content: attr(data-title);
+        float: left;
+    }
+    tbody tr:nth-child(even){
+        background-color: #eaeaea;
+        /* color:azure */
+    }
+}
+
 /* Footer styles */
 footer {
     background-color: #333;
