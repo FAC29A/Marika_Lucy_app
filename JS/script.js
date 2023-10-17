@@ -7,7 +7,20 @@ async function getHistoricalWeather(event) {
 
     // Get the user input from the city and date fields.
     const cityInput = document.getElementById('earthCityInput').value;
+
+    function isValidDateFormat(dateString) {
+        const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+        return dateFormatRegex.test(dateString);
+    }
+    
+    // Usage:
     const dateInput = document.getElementById('earthDateInput').value;
+    if (!isValidDateFormat(dateInput)) {
+        // Handle invalid date format
+        console.error('Invalid date format. Please enter a valid date in yyyy-MM-dd format.');
+        return;
+    }
+    
 
     // Validate the input fields.
     if (!cityInput || !dateInput) {
@@ -18,13 +31,14 @@ async function getHistoricalWeather(event) {
     try {
         // Construct the API request URL with user input.
         const apiUrl = `https://api.weatherapi.com/v1/history.json?key=${apiKey}&q=${cityInput}&dt=${dateInput}`;
+        console.log('API Request URL:', apiUrl);
         
         // Use the fetch method to make a GET request to the API.
         const response = await fetch(apiUrl);
 
         // Check for a successful response (status code 200) and handle other status codes.
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`404 error! Status: ${response.status}`);
         }
 
         // Parse the response JSON data.
