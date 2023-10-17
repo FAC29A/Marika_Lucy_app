@@ -4,8 +4,14 @@ const apiKey = 'a711839e0ec942c4b97225522231610';
 async function getHistoricalWeather(event) {
     event.preventDefault(); // Prevent the default form submission.
 
-    const cityInput = document.getElementById('earthCityInput').value; 
-    const dateInput = document.getElementById('earthDateInput').value; 
+    const cityInput = document.getElementById('earthCityInput').value;
+    const dateInput = document.getElementById('earthDateInput').value;
+
+    // Validate the input fields.
+    if (!cityInput || !dateInput) {
+        alert('Please fill in both city and date fields.');
+        return;
+    }
 
     // Make an API request to fetch historical weather data.
     try {
@@ -27,21 +33,18 @@ function displayWeather(data) {
         weatherInfo.innerHTML = `<p>${data.error.message}</p>`;
     } else {
         // Extract and display the weather information.
-        const { forecast } = data;
+        const { location, forecast } = data;
         const {
             temp_c,
-            temp_f,
             mintemp_c,
             maxtemp_c,
-            mintemp_f,
-            maxtemp_f,
             pressure_mb,
-            sunrise,
-            sunset,
         } = forecast.forecastday[0].day;
 
+        const { sunrise, sunset } = forecast.forecastday[0].astro;
+
         weatherInfo.innerHTML = `
-            <h2>Weather for ${data.location.name}, ${data.location.country}</h2>
+            <h2>Weather for ${location.name}, ${location.country}</h2>
             <p>Air Temperature (Min): ${mintemp_c}°C</p>
             <p>Air Temperature (Max): ${maxtemp_c}°C</p>
             <p>Ground Temperature (Min): ${mintemp_c}°C</p>
