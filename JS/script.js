@@ -55,7 +55,6 @@ async function getHistoricalWeather(event) {
     }
 }
 
-// Function to display weather information.
 function displayWeather(data) {
     const weatherInfo = document.getElementById('earthWeatherInfo');
 
@@ -74,18 +73,27 @@ function displayWeather(data) {
     // Format the pressure value to hPa.
     const pressure_hPa = pressure_mb / 100;
 
+    // Format dates and temperatures
+    const formattedSunrise = new Date(sunrise).toLocaleTimeString();
+    const formattedSunset = new Date(sunset).toLocaleTimeString();
+    const formattedMinTemp = `${mintemp_c}°C`;
+    const formattedMaxTemp = `${maxtemp_c}°C`;
+    const formattedAvgTemp = `${avgtemp_c}°C`;
+
+    // Display the weather information
     weatherInfo.innerHTML = `
         <h2>Weather for ${location.name}, ${location.country}</h2>
-        <p>Air Temperature (Min): ${mintemp_c}°C</p>
-        <p>Air Temperature (Max): ${maxtemp_c}°C</p>
-        <p>Ground Temperature (Avg): ${avgtemp_c}°C</p>
+        <p>Air Temperature (Min): ${formattedMinTemp}</p>
+        <p>Air Temperature (Max): ${formattedMaxTemp}</p>
+        <p>Ground Temperature (Avg): ${formattedAvgTemp}</p>
         <p>Atmospheric Pressure: ${pressure_hPa} hPa</p>
-        <p>Sunrise: ${sunrise}</p>
-        <p>Sunset: ${sunset}</p>
+        <p>Sunrise: ${formattedSunrise}</p>
+        <p>Sunset: ${formattedSunset}</p>
     `;
 }
 
-// Add an event listener for the form submission.
+
+// Add an event listener for the form submission
 document.addEventListener('DOMContentLoaded', function () {
     const weatherForm = document.getElementById('weather-search-form');
     weatherForm.addEventListener('submit', getHistoricalWeather);
