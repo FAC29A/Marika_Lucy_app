@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Weather App</title>
+    
+</head>
+<body>
+    <header>
+        <h1>Weather App</h1>
+    </header>
+    <main>
+        <!-- Earth Weather Section -->
+        <section id="earth-weather">
+            <h2>Earth Weather</h2>
+            <form id="weather-search-form"> 
+                <section id="earth-location-search">
+                    <label for="earthCityInput">Enter a city on Earth: </label>
+                    <input type="text" id="earthCityInput" placeholder="E.g., London">
+                    <label for="earthDateInput">Enter Date (YYYY-MM-DD): </label>
+                    <input type="text" id="earthDateInput" placeholder="YYYY-MM-DD">
+                    <button id="getEarthWeatherButton">Get Historical Weather</button>
+                </section>
+            </form> 
+
+            <!-- Earth Weather Information Display -->
+            <section id="earthWeatherInfo" aria-live="polite">
+                <h3>Weather for <span id="earthLocationName">London</span></h3>
+                <p>Temperature (Min): <span id="earthMinTemperature"></span>°C</p>
+                <p>Temperature (Max): <span id="earthMaxTemperature"></span>°C</p>
+                <p>Ground Temperature (Min): <span id="earthMinGroundTemperature"></span>°C</p>
+                <p>Ground Temperature (Max): <span id="earthMaxGroundTemperature"></span>°C</p>
+                <p>Pressure: <span id="earthPressure"></span> Pa</p>
+                <p>Sunrise: <span id="earthSunrise"></span></p>
+                <p>Sunset: <span id="earthSunset"></span></p>
+            </section>
+        </section>
+
+        <!-- Mars Weather Section -->
+        <section id="mars-weather">
+            <h2>Mars Weather</h2>
+            <section id="mars-location-info">
+                <p>Weather information on Mars for the same date:</p>
+                <section id="marsWeatherInfo" aria-live="polite">
+                    <h3>Weather on Mars</h3>
+                    <p>Temperature (Min): <span id="marsMinTemperature"></span>°C</p>
+                    <p>Temperature (Max): <span id="marsMaxTemperature"></span>°C</p>
+                    <p>Ground Temperature (Min): <span id="marsMinGroundTemperature"></span>°C</p>
+                    <p>Ground Temperature (Max): <span id="marsMaxGroundTemperature"></span>°C</p>
+                    <p>Pressure: <span id="marsPressure"></span> Pa</p>
+                    <p>Sunrise: <span id="marsSunrise"></span></p>
+                    <p>Sunset: <span id="marsSunset"></span></p>
+                    
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="./JS/script.js"></script>
+</body>
+</html>
