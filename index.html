@@ -16,18 +16,21 @@
                 <img src="./images/icons8-weather.svg" alt="Earth Vs Mars Weather Logo">
             </div>                   
             <!-- Location Search -->
-            <form id="weather-search-form">
-                <div class="search">
-                    <button type="submit" class="search-box-icon" aria-label="Search Button">
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <div class="search-box">
-                        <input type="text" id="location-search" placeholder="Search for a location" aria-label="Location Search">
-                    </div>
-                </div>
-                <span class="search-msg"></span>
-            </form>
-            
+<form id="weather-search-form">
+    <div class="search">
+        <button type="submit" class="search-box-icon" aria-label="Search Button">
+            <i class="fa fa-search"></i>
+        </button>
+        <div class="search-box">
+            <input type="text" id="location-search" placeholder="Search for a location" aria-label="Location Search">
+        </div>
+    </div>
+    <label for="dateInput">Enter Date (YYYY-MM-DD): </label>
+    <input type="text" id="dateInput" placeholder="YYYY-MM-DD">
+    <span class="search-msg"></span>
+</form>
+
+          
             <!-- Buttons -->
             <div class="buttons">
                 <!-- Light/Dark Mode Toggle -->
@@ -49,7 +52,7 @@
     <main>
         <section class="placegrid" id="location-name">
             <div id="county-post">
-                <h3 id="city"></h3>
+                <h3 id="city">Weather in London</h3>
             </div>
             <p class="forecast-message"></p>
         </section>
@@ -116,7 +119,7 @@
                 </tbody>
             </table>
             <p>Weather report obtained through the <a href="https://mars.nasa.gov/msl/home/" target="_blank">Mars Curiosity Rover</a>.</p>   
-    
+            <div id="weatherInfo"></div>
     </main>   
     <footer>
         <div class="navbar">
@@ -129,8 +132,7 @@
             <!-- Scroll-to-Top Button -->
             <button class="scroll-top-button">Scroll to Top</button>
         </div>
-    </footer>
-       
+    </footer>    
 </body>
 </html>
 

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Weather App</title>
+</head>
+
+<body>
+    <!-- Title -->
+    <header>
+        <h1>Weather App</h1>
+    </header>
+
+    <main>
+        <!-- City Search Section to input the name of a city on Earth -->
+        <section id="earth-weather">
+            <form id="weather-search-form">
+                <section id="earth-location-search">
+                    <label for="earthCityInput">Enter a city on Earth: </label>
+                    <input type="text" id="earthCityInput" placeholder="Enter city">
+                    <button id="getEarthWeatherButton">Search</button>
+                </section>
+            </form>
+        </section>
+
+        <div id="locationDisplay"></div>
+
+        <!-- Buttons to select specific days -->
+        <section class="date-buttons">
+            <button class="filter-btn">1</button>
+            <button class="filter-btn">2</button>
+            <button class="filter-btn">3</button>
+            <button class="filter-btn">4</button>
+            <button class="filter-btn">5</button>
+            <button class="filter-btn">6</button>
+            <button class="filter-btn">7</button>
+        </section>
+
+        <!-- Table displaying weather info for Earth and Mars -->
+        <table id="earthWeatherInfo">
+            <thead>
+                <tr>
+                    <th colspan="2"></th>
+                    <th>Earth</th>
+                    <th>Mars</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Earth data is being filled using IDs, Mars data placeholders are kept with number 12 for now -->
+                
+                <!-- Air Temperature Data -->
+                <tr>
+                    <td rowspan="2">Air Temperature</td>
+                    <td>Min.</td>
+                    <td data-title="Earth" id="earthMinTemperature"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+                <tr>
+                    <td>Max.</td>
+                    <td data-title="Earth" id="earthMaxTemperature"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+
+                <!-- Ground Temperature Data -->
+                <tr>
+                    <td rowspan="2">Ground Temperature</td>
+                    <td>Min.</td>
+                    <td data-title="Earth"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+                <tr>
+                    <td>Max.</td>
+                    <td data-title="Earth" id="earthAvgGroundTemperature"></td>
+                    <td data-title="Mars"12></td>
+                </tr>
+
+                <!-- Pressure Data -->
+                <tr>
+                    <td>Pressure (Pa)</td>
+                    <td></td>
+                    <td data-title="Earth" id="earthPressure"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+
+                <!-- Sunrise Data -->
+                <tr>
+                    <td>Sunrise</td>
+                    <td></td>
+                    <td data-title="Earth" id="earthSunrise"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+
+                <!-- Sunset Data -->
+                <tr>
+                    <td>Sunset</td>
+                    <td></td>
+                    <td data-title="Earth" id="earthSunset"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+            </tbody>
+        </table>        
+    </main>
+
+    <!-- Footer containing credit and copyright information -->
+    <footer>
+        <p>Weather report obtained through the <a href="https://mars.nasa.gov/msl/home/" target="_blank">Mars Curiosity Rover</a>.</p>
+        <p>Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a></p>
+        <p>Copyright @ 2023 <br><br>Lucía Fernandez & Marika Bertelli</p>
+    </footer>
+
+    <!-- JavaScript Files for Application Functionality -->
+    <script src="./JS/weatherFunctions.js"></script>
+    <script src="./JS/dateDisplay.js"></script>
+    <script src="./JS/weatherDisplay.js"></script>
+    <script src="./JS/main.js"></script>    
+    
+</body>
+</html>
