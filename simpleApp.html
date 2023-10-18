@@ -27,12 +27,12 @@
             <!-- Earth Weather Information Display -->
             <section id="earthWeatherInfo" aria-live="polite">
                 <h3>Weather for <span id="earthLocationName">London</span> - <span id="earthDate"></span></h3>
-                <p>Temperature (Min): <span id="earthMinTemperature"></span>°C</p>
-                <p>Temperature (Max): <span id="earthMaxTemperature"></span>°C</p>
-                <p>Ground Temperature (Avg): <span id="earthAvgGroundTemperature"></span>°C</p>
-                <p>Pressure: <span id="earthPressure"></span> Pa</p>
-                <p>Sunrise: <span id="earthSunrise"></span></p>
-                <p>Sunset: <span id="earthSunset"></span></p>
+                <p>Temperature (Min): <span id="earthMinTemperature" class="weather-icon"></span>°C</p>
+                <p>Temperature (Max): <span id="earthMaxTemperature" class="weather-icon"></span>°C</p>
+                <p>Ground Temperature (Avg): <span id="earthAvgGroundTemperature" class="weather-icon"></span>°C</p>
+                <p>Pressure: <span id="earthPressure" class="weather-icon"></span> mb</p>
+                <p>Sunrise: <span id="earthSunrise" class="weather-icon"></span></p>
+                <p>Sunset: <span id="earthSunset" class="weather-icon"></span></p>
             </section>
         </section>
 
@@ -55,8 +55,9 @@
         </section>
     </main>
 
+   
     <script src="./JS/weatherFunctions.js"></script>
-    <script src="./JS/dataDisplay.js"></script>
+    <script src="./JS/dateDisplay.js"></script>
     <script src="./JS/weatherDisplay.js"></script>
     <script src="./JS/main.js"></script>    
     
