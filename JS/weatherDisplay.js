@@ -14,6 +14,9 @@ function displayWeather(data) {
     // Extract sunrise and sunset times
     const { sunrise, sunset } = forecast.forecastday[0].astro;
 
+    const rawDate = forecast.forecastday[0].date;
+    const formattedDate = formatDateForDisplay(rawDate);
+
     // Extract the date
     const { date } = forecast.forecastday[0];
 
@@ -27,7 +30,7 @@ function displayWeather(data) {
 
     // Display the weather information
     weatherInfo.innerHTML = `
-        <h3>Weather for <span id="earthLocationName">${location.name}, ${location.country}</span> - <span id="earthDate">${date}</span></h3>
+        <h3>Weather for <span id="earthLocationName">${location.name}, ${location.country}</span> - <span id="earthDate">${formattedDate}</span></h3>
         <p>Air Temperature (Min): ${formattedMinTemp}</p>
         <p>Air Temperature (Max): ${formattedMaxTemp}</p>
         <p>Ground Temperature (Avg): ${formattedAvgTemp}</p>
