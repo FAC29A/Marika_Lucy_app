@@ -1,142 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="./CSS/variables.css">
-    <link rel="stylesheet" href="./CSS/style.css">
-    <title>Earth Vs Mars Weather</title>
+    <title>Historical Weather App</title>
 </head>
-<body>
-    <header>
-        <nav class="navbar">
-            <!-- Logo -->
-            <div class="logo">
-                <img src="./images/icons8-weather.svg" alt="Earth Vs Mars Weather Logo">
-            </div>                   
-            <!-- Location Search -->
-<form id="weather-search-form">
-    <div class="search">
-        <button type="submit" class="search-box-icon" aria-label="Search Button">
-            <i class="fa fa-search"></i>
-        </button>
-        <div class="search-box">
-            <input type="text" id="location-search" placeholder="Search for a location" aria-label="Location Search">
-        </div>
-    </div>
-    <label for="dateInput">Enter Date (YYYY-MM-DD): </label>
-    <input type="text" id="dateInput" placeholder="YYYY-MM-DD">
-    <span class="search-msg"></span>
-</form>
 
-          
-            <!-- Buttons -->
-            <div class="buttons">
-                <!-- Light/Dark Mode Toggle -->
-                <button class="light-dark-toggle" aria-label="Toggle Light/Dark Mode">
-                    <i class="fa fa-sun"></i>
-                    <i class="fa fa-moon" style="display: none;"></i>
-                </button>
-                <!-- Fahrenheit/Celsius Toggle -->
-                <button class="fahrenheit-celsius-toggle" aria-label="Toggle Fahrenheit or Celsius">°F/°C</button>
-                <!-- GitHub Repository Link -->
-                <a href=" " class="github-link" target="_blank">
-                    <button class="git" aria-label="GitHub Repository Link">
-                        <i class="repository"></i> GitHub
-                    </button>
-                </a>
-            </div>
-        </nav> 
-    </header> 
+<body>
+    <!-- Title -->
+    <header>
+        <h1>Weather App</h1>
+    </header>
+
     <main>
-        <section class="placegrid" id="location-name">
-            <div id="county-post">
-                <h3 id="city">Weather in London</h3>
-            </div>
-            <p class="forecast-message"></p>
+        <!-- City Search Section to input the name of a city on Earth -->
+        <section id="earth-weather">
+            <form id="weather-search-form">
+                <section id="earth-location-search">
+                    <label for="earthCityInput">Enter a city on Earth: </label>
+                    <input type="text" id="earthCityInput" placeholder="Enter city">
+                    <button id="getEarthWeatherButton">Search</button>
+                </section>
+            </form>
         </section>
-        
-        
-            <section class="date-buttons">
-                <button class="filter-btn">1</button>
-                <button class="filter-btn">1</button>
-                <button class="filter-btn">1</button>
-                <button class="filter-btn">1</button>
-                <button class="filter-btn">1</button>
-                <button class="filter-btn">1</button>
-                <button class="filter-btn">1</button>
-            </section>
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="2"></th>
-                        <th>Earth</th>
-                        <th>Mars</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowspan="2">Air Temperature</td>
-                        <td>Min.</td>
-                        <td data-title="Earth">12</td>
-                        <td data-title="Mars">12</td>
-                    </tr>
-                    <tr>
-                        <td>Max.</td>
-                        <td data-title="Earth">12</td>
-                        <td data-title="Mars">12</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2">Ground Temperature</td>
-                        <td>Min.</td>
-                        <td data-title="Earth">12</td>
-                        <td data-title="Mars">12</td>
-                    </tr>
-                    <tr>
-                        <td>Max.</td>
-                        <td data-title="Earth">12</td>
-                        <td data-title="Mars">12</td>
-                    </tr>
-                    <tr>
-                        <td>Pressure (Pa)</td>
-                        <td></td>
-                        <td data-title="Earth">12</td>
-                        <td data-title="Mars">12</td>
-                    </tr>
-                    <tr>
-                        <td>Sunrise</td>
-                        <td></td>
-                        <td data-title="Earth">12</td>
-                        <td data-title="Mars">12</td>
-                    </tr>
-                    <tr>
-                        <td>Sunset</td>
-                        <td></td>
-                        <td data-title="Earth">12</td>
-                        <td data-title="Mars">12</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>Weather report obtained through the <a href="https://mars.nasa.gov/msl/home/" target="_blank">Mars Curiosity Rover</a>.</p>   
-            <div id="weatherInfo"></div>
-    </main>   
+
+        <div id="locationDisplay"></div>
+
+        <!-- Buttons to select specific days -->
+        <section class="date-buttons">
+            <button class="filter-btn">1</button>
+            <button class="filter-btn">2</button>
+            <button class="filter-btn">3</button>
+            <button class="filter-btn">4</button>
+            <button class="filter-btn">5</button>
+            <button class="filter-btn">6</button>
+            <button class="filter-btn">7</button>
+        </section>
+
+        <!-- Table displaying weather info for Earth and Mars -->
+        <table id="earthWeatherInfo">
+            <thead>
+                <tr>
+                    <th colspan="2"></th>
+                    <th>Earth</th>
+                    <th>Mars</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Earth data is being filled using IDs, Mars data placeholders are kept with number 12 for now -->
+                
+                <!-- Air Temperature Data -->
+                <tr>
+                    <td rowspan="2">Air Temperature</td>
+                    <td>Min.</td>
+                    <td data-title="Earth" id="earthMinTemperature"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+                <tr>
+                    <td>Max.</td>
+                    <td data-title="Earth" id="earthMaxTemperature"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+
+                <!-- Ground Temperature Data -->
+                <tr>
+                    <td rowspan="2">Ground Temperature</td>
+                    <td>Min.</td>
+                    <td data-title="Earth"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+                <tr>
+                    <td>Max.</td>
+                    <td data-title="Earth" id="earthAvgGroundTemperature"></td>
+                    <td data-title="Mars"12></td>
+                </tr>
+
+                <!-- Pressure Data -->
+                <tr>
+                    <td>Pressure (Pa)</td>
+                    <td></td>
+                    <td data-title="Earth" id="earthPressure"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+
+                <!-- Sunrise Data -->
+                <tr>
+                    <td>Sunrise</td>
+                    <td></td>
+                    <td data-title="Earth" id="earthSunrise"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+
+                <!-- Sunset Data -->
+                <tr>
+                    <td>Sunset</td>
+                    <td></td>
+                    <td data-title="Earth" id="earthSunset"></td>
+                    <td data-title="Mars">12</td>
+                </tr>
+            </tbody>
+        </table>        
+    </main>
+
+    <!-- Footer containing credit and copyright information -->
     <footer>
-        <div class="navbar">
-            <!-- Logo -->
-            <div class="logo">
-                <img src="./images/icons8-weather.svg" alt="Earth Vs Mars Weather Logo">
-            </div>
-            <!-- Long Button -->
-            <button class="long-button">footer</button>
-            <!-- Scroll-to-Top Button -->
-            <button class="scroll-top-button">Scroll to Top</button>
-        </div>
-    </footer>    
+        <p>Weather report obtained through the <a href="https://mars.nasa.gov/msl/home/" target="_blank">Mars Curiosity Rover</a>.</p>
+        <p>Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a></p>
+        <p>Copyright @ 2023 <br><br>Lucía Fernandez & Marika Bertelli</p>
+    </footer>
+
+    <!-- JavaScript Files for Application Functionality -->
+    <script src="./JS/weatherFunctions.js"></script>
+    <script src="./JS/dateDisplay.js"></script>
+    <script src="./JS/weatherDisplay.js"></script>
+    <script src="./JS/main.js"></script>    
+    
 </body>
 </html>
-
-
-
-
- 
