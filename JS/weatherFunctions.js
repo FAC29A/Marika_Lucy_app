@@ -1,30 +1,28 @@
 // My API key for the weather on earth.
 const apiKey = 'a711839e0ec942c4b97225522231610';
 
-// Function to get historical weather data for a specific city and date.
+function isValidDateFormat(dateString) {
+    const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+    return dateFormatRegex.test(dateString);
+}
+
 async function getHistoricalWeather(event) {
     event.preventDefault(); // Prevent the default form submission.
 
     // Get the user input from the city and date fields.
     const cityInput = document.getElementById('earthCityInput').value;
-
-    function isValidDateFormat(dateString) {
-        const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
-        return dateFormatRegex.test(dateString);
-    }
-    
-    // Usage:
     const dateInput = document.getElementById('earthDateInput').value;
-    if (!isValidDateFormat(dateInput)) {
-        // Handle invalid date format
-        console.error('Invalid date format. Please enter a valid date in yyyy-MM-dd format.');
-        return;
-    }
-    
 
     // Validate the input fields.
     if (!cityInput || !dateInput) {
         alert('Please fill in both city and date fields.');
+        return;
+    }
+
+    // Check if the date format is valid.
+    if (!isValidDateFormat(dateInput)) {
+        // Handle invalid date format
+        console.error('Invalid date format. Please enter a valid date in yyyy-MM-dd format.');
         return;
     }
 
@@ -38,7 +36,7 @@ async function getHistoricalWeather(event) {
 
         // Check for a successful response (status code 200) and handle other status codes.
         if (!response.ok) {
-            throw new Error(`404 error! Status: ${response.status}`);
+            throw new Error(`Error! Status: ${response.status}`);
         }
 
         // Parse the response JSON data.
@@ -58,17 +56,17 @@ async function getHistoricalWeather(event) {
             throw new Error(errorMessage);
         }
 
-        // Display the weather information.
+        // Display the weather information using the displayWeather function from main.js
         displayWeather(data);
     } catch (error) {
-        console.error('Error:', error.message);
-
-        // Display the user-friendly error message.
-        const weatherInfo = document.getElementById('earthWeatherInfo');
-        weatherInfo.innerHTML = `<p>Error: ${error.message}</p>`;
+        throw error;
     }
 }
 
+// Export the getHistoricalWeather function
+window.getHistoricalWeather = getHistoricalWeather;
+
+// Define the displayWeather function
 function displayWeather(data) {
     const weatherInfo = document.getElementById('earthWeatherInfo');
 
@@ -105,10 +103,3 @@ function displayWeather(data) {
         <p>Sunset: ${formattedSunset}</p>
     `;
 }
-
-
-// Add an event listener for the form submission
-document.addEventListener('DOMContentLoaded', function () {
-    const weatherForm = document.getElementById('weather-search-form');
-    weatherForm.addEventListener('submit', getHistoricalWeather);
-});
