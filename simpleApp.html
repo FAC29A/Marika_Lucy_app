@@ -26,7 +26,7 @@
             
             <!-- Earth Weather Information Display -->
             <section id="earthWeatherInfo" aria-live="polite">
-                <h3>Weather for <span id="earthLocationName">London</span></h3>
+                <h3>Weather for <span id="earthLocationName">London</span> - <span id="earthDate"></span></h3>
                 <p>Temperature (Min): <span id="earthMinTemperature"></span>°C</p>
                 <p>Temperature (Max): <span id="earthMaxTemperature"></span>°C</p>
                 <p>Ground Temperature (Avg): <span id="earthAvgGroundTemperature"></span>°C</p>
@@ -55,8 +55,9 @@
         </section>
     </main>
 
-    <script type="module" src="./JS/weatherFunctions.js"></script>
-    <script type="module" src="./JS/main.js"></script>
+    <script src="./JS/weatherFunctions.js"></script>
+    <script src="./JS/weatherDisplay.js"></script>
+    <script src="./JS/main.js"></script>    
     
 </body>
 </html>

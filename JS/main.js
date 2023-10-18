@@ -1,5 +1,5 @@
 // Import the getHistoricalWeather function from weatherFunctions.js
-const getHistoricalWeather = window.getHistoricalWeather;
+//const getHistoricalWeather = window.getHistoricalWeather;
 
 // Set default values for city and date
 const cityInput = document.getElementById('earthCityInput');
@@ -29,3 +29,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+
