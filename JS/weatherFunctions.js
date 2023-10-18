@@ -56,7 +56,7 @@ async function getHistoricalWeather(event) {
             throw new Error(errorMessage);
         }
 
-        // Display the weather information using the displayWeather function from main.js
+        // Display the weather information using the displayWeather function
         displayWeather(data);
     } catch (error) {
         throw error;
@@ -80,6 +80,7 @@ function displayWeather(data) {
         avgtemp_c, // Ground temperature
     } = forecast.forecastday[0].day;
 
+    // Move the declaration and initialization of sunrise and sunset here
     const { sunrise, sunset } = forecast.forecastday[0].astro;
 
     // Format the pressure value to hPa.
@@ -103,3 +104,4 @@ function displayWeather(data) {
         <p>Sunset: ${formattedSunset}</p>
     `;
 }
+
