@@ -1,11 +1,13 @@
 // My API key for the weather on earth.
 const apiKey = 'a711839e0ec942c4b97225522231610';
 
+// Function to validate the date format
 function isValidDateFormat(dateString) {
     const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
     return dateFormatRegex.test(dateString);
 }
 
+// Function to get historical weather data
 async function getHistoricalWeather(event) {
     event.preventDefault(); // Prevent the default form submission.
 
@@ -16,22 +18,22 @@ async function getHistoricalWeather(event) {
     // Validate the input fields.
     if (!cityInput || !dateInput) {
         alert('Please fill in both city and date fields.');
-        return;
+        return; // Exit the function if validation fails
     }
 
     // Check if the date format is valid.
     if (!isValidDateFormat(dateInput)) {
         // Handle invalid date format
         console.error('Invalid date format. Please enter a valid date in yyyy-MM-dd format.');
-        return;
+        return; // Exit the function if validation fails
     }
 
     try {
         // Construct the API request URL with user input.
         const apiUrl = `https://api.weatherapi.com/v1/history.json?key=${apiKey}&q=${cityInput}&dt=${dateInput}`;
         console.log('API Request URL:', apiUrl);
-        
-        // Use the fetch method to make a GET request to the API.
+
+        // Fetch method to make a GET request to the API.
         const response = await fetch(apiUrl);
 
         // Check for a successful response (status code 200) and handle other status codes.
@@ -66,7 +68,6 @@ async function getHistoricalWeather(event) {
 // Export the getHistoricalWeather function
 window.getHistoricalWeather = getHistoricalWeather;
 
-// Define the displayWeather function
 function displayWeather(data) {
     const weatherInfo = document.getElementById('earthWeatherInfo');
 
@@ -80,15 +81,13 @@ function displayWeather(data) {
         avgtemp_c, // Ground temperature
     } = forecast.forecastday[0].day;
 
-    // Move the declaration and initialization of sunrise and sunset here
+    // Extract sunrise and sunset times
     const { sunrise, sunset } = forecast.forecastday[0].astro;
 
     // Format the pressure value to hPa.
     const pressure_hPa = pressure_mb / 100;
 
     // Format dates and temperatures
-    const formattedSunrise = new Date(sunrise).toLocaleTimeString();
-    const formattedSunset = new Date(sunset).toLocaleTimeString();
     const formattedMinTemp = `${mintemp_c}°C`;
     const formattedMaxTemp = `${maxtemp_c}°C`;
     const formattedAvgTemp = `${avgtemp_c}°C`;
@@ -100,8 +99,9 @@ function displayWeather(data) {
         <p>Air Temperature (Max): ${formattedMaxTemp}</p>
         <p>Ground Temperature (Avg): ${formattedAvgTemp}</p>
         <p>Atmospheric Pressure: ${pressure_hPa} hPa</p>
-        <p>Sunrise: ${formattedSunrise}</p>
-        <p>Sunset: ${formattedSunset}</p>
+        <p>Sunrise: ${sunrise}</p>
+        <p>Sunset: ${sunset}</p>
     `;
 }
+
 

@@ -1,4 +1,4 @@
-// Import the getHistoricalWeather function from api.js
+// Import the getHistoricalWeather function from weatherFunctions.js
 const getHistoricalWeather = window.getHistoricalWeather;
 
 // Set default values for city and date
