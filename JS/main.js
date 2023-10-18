@@ -1,61 +1,40 @@
-function displayWeather(data) {
-    const weatherInfo = document.getElementById('earthWeatherInfo');
-    console.log("Data received:", JSON.stringify(data, null, 2));
+// Define default city and date values
+const DEFAULT_CITY = 'London';
+const DEFAULT_DATE = '2023-10-08';
 
-    // Check if necessary data exists
-    if (!data || !data.forecast || !data.forecast.forecastday || !data.forecast.forecastday[0] || !data.forecast.forecastday[0].day) {
-        weatherInfo.innerHTML = `<p>Error: Missing weather data.</p>`;
-        return;
+// Initialize the city input field with the default value
+const cityInput = document.getElementById('earthCityInput');
+cityInput.value = DEFAULT_CITY;
+
+// Function to handle form submission
+async function handleWeatherFormSubmission(event) {
+    event.preventDefault();
+
+    try {
+        await getHistoricalWeather(event); // Fetch historical weather data
+    } catch (error) {
+        console.error('Error:', error.message);
+
+        // Display a user-friendly error message
+        const weatherInfo = document.getElementById('earthWeatherInfo');
+        weatherInfo.innerHTML = `<p>Error: ${error.message}</p>`;
     }
-
-    // Assign the forecast data for the first day to dayForecast
-    const dayForecast = data.forecast.forecastday[0].day;
-
-    // Continue with the rest of your code
-    const { location } = data;
-
-    // Set default values and destructure
-    const {
-        temp_c = 'N/A',
-        mintemp_c = 'N/A',
-        maxtemp_c = 'N/A',
-        avgtemp_c = 'N/A', // Ground temperature
-    } = dayForecast;
-
-    const { sunrise = 'N/A', sunset = 'N/A' } = data.forecast.forecastday[0].astro;
-
-    const rawDate = data.forecast.forecastday[0].date;
-    const formattedDate = formatDateForDisplay(rawDate);
-
-    // Format dates and temperatures
-    const formattedMinTemp = `${mintemp_c}°C`;
-    const formattedMaxTemp = `${maxtemp_c}°C`;
-    const formattedAvgTemp = `${avgtemp_c}°C`;
-
-    // Format pressure_mb
-    let pressure_mb = 'N/A'; // Default value
-    if (!isNaN(dayForecast.pressure_mb)) {
-        pressure_mb = parseFloat(dayForecast.pressure_mb);
-    }
-    console.log("Pressure Value:", pressure_mb);
-
-    // Get the icon class based on the weather condition
-    const iconClass = getIconClass(dayForecast.condition.code);
-
-    // Set the icon class for the weather icon
-    const iconElement = document.querySelector(".icon");
-    iconElement.className = 'icon ' + iconClass;
-
-    // First, set the general structure (innerHTML) of the weatherInfo.
-    weatherInfo.innerHTML = `
-        <h3>Weather for <span id="earthLocationName">${location.name}, ${location.country}</span> - <span id="earthDate">${formattedDate}</span></h3>
-        <p>Air Temperature (Min): <span id="earthMinTemperature">${formattedMinTemp}</span></p>
-        <p>Air Temperature (Max): <span id="earthMaxTemperature">${formattedMaxTemp}</span></p>
-        <p>Ground Temperature (Avg): <span id="earthAvgGroundTemperature">${formattedAvgTemp}</span></p>
-        <p>Atmospheric Pressure: <span id="earthPressure">${pressure_mb}</span> mb</p>
-        <p>Sunrise: <span id="earthSunrise">${sunrise}</span></p>
-        <p>Sunset: <span id="earthSunset">${sunset}</span></p>
-    `;
 }
+
+// Fetch historical weather data using default values immediately
+getHistoricalWeather(new Event('submit'));
+
+// Add event listener for when the document is completely loaded
+document.addEventListener('DOMContentLoaded', function () {
+    // Set default date on the first button
+    const firstButton = document.querySelector('.filter-btn');
+    if (firstButton) {
+        firstButton.innerText = DEFAULT_DATE;
+    }
+
+    // Attach the form submission event handler
+    const weatherForm = document.getElementById('weather-search-form');
+    weatherForm.addEventListener('submit', handleWeatherFormSubmission);
+});
 
 
