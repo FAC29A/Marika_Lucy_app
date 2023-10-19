@@ -48,40 +48,31 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Earth data is being filled using IDs, Mars data placeholders are kept with number 12 for now -->
+                <!-- Earth data is being filled using IDs, Mars data placeholders are kept emptyfor now -->
                 
                 <!-- Air Temperature Data -->
                 <tr>
                     <td rowspan="2">Air Temperature</td>
                     <td>Min.</td>
                     <td data-title="Earth" id="earthMinTemperature"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Mars"></td>
                 </tr>
                 <tr>
                     <td>Max.</td>
                     <td data-title="Earth" id="earthMaxTemperature"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Mars"></td>
                 </tr>
 
-                <!-- Ground Temperature Data -->
+                <!-- Atmospheric Opacity Data -->
                 <tr>
-                    <td rowspan="2">Ground Temperature</td>
-                    <td>Min.</td>
+                    <td>Atmospheric Opacity</td>
                     <td data-title="Earth"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Mars"></td>
                 </tr>
                 <tr>
                     <td>Max.</td>
                     <td data-title="Earth" id="earthAvgGroundTemperature"></td>
-                    <td data-title="Mars"12></td>
-                </tr>
-
-                <!-- Pressure Data -->
-                <tr>
-                    <td>Pressure (Pa)</td>
-                    <td></td>
-                    <td data-title="Earth" id="earthPressure"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Mars"></td>
                 </tr>
 
                 <!-- Sunrise Data -->
@@ -89,7 +80,7 @@
                     <td>Sunrise</td>
                     <td></td>
                     <td data-title="Earth" id="earthSunrise"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Mars"></td>
                 </tr>
 
                 <!-- Sunset Data -->
@@ -97,7 +88,7 @@
                     <td>Sunset</td>
                     <td></td>
                     <td data-title="Earth" id="earthSunset"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Mars"></td>
                 </tr>
             </tbody>
         </table>        
@@ -111,10 +102,9 @@
     </footer>
 
     <!-- JavaScript Files for Application Functionality -->
-    <script src="./JS/weatherFunctions.js"></script>
-    <script src="./JS/dateDisplay.js"></script>
-    <script src="./JS/weatherDisplay.js"></script>
-    <script src="./JS/main.js"></script>    
+    <script src="./JS/events.js"></script> 
+    <script src="./JS/script.js"></script>
+       
     
 </body>
 </html>
