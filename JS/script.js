@@ -152,9 +152,35 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// Function to update table cells based on the selected index
+function updateTableData(index) {
+    // Update the Earth data cells
+    document.getElementById('earthMinAirTemp').textContent = parameterData.earth.minAirTemp[index];
+    document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
+    document.getElementById('earthAtmoOpacities').textContent = parameterData.earth.atmoOpacities[index];
+    document.getElementById('earthSunrise').textContent = parameterData.earth.sunrise[index];
+    document.getElementById('earthSunset').textContent = parameterData.earth.sunset[index];
+  
+    // Update the Mars data cells
+    document.getElementById('marsMinAirTemp').textContent = parameterData.mars.minAirTemp[index];
+    document.getElementById('marsMaxAirTemp').textContent = parameterData.mars.maxAirTemp[index];
+    document.getElementById('marsAtmoOpacities').textContent = parameterData.mars.atmoOpacities[index];
+    document.getElementById('marsSunrise').textContent = parameterData.mars.sunrise[index];
+    document.getElementById('marsSunset').textContent = parameterData.mars.sunset[index];
+  }
+  
+  // Attach click event listeners to the buttons
+  buttons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      // Call the updateTableData function with the clicked button's index
+      updateTableData(index);
+    });
+  });
+  
+
 //FOR MARIKA TO PLAY
 
-// Assuming you have an element with the ID "atmoOpacityElement" in your HTML
-const atmoOpacityElement = document.getElementById('atmoOpacityElement');
-atmoOpacityElement.textContent = parameterData.earth.atmoOpacities[0]; // Replace [0] with the appropriate index
+// // Assuming you have an element with the ID "atmoOpacityElement" in your HTML
+// const atmoOpacityElement = document.getElementById('atmoOpacityElement');
+// atmoOpacityElement.textContent = parameterData.earth.atmoOpacities[0]; // Replace [0] with the appropriate index
 
