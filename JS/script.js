@@ -2,7 +2,7 @@ const apiKey = 'a711839e0ec942c4b97225522231610';
 const apiUrl = 'http://api.weatherapi.com/v1/history.json';
 const nasaAPI = fetch("https://mars.nasa.gov/rss/api/?feed=weather&category=msl&feedtype=json")
 const defaultCity = 'London'; // Default city set to London
-
+const buttons = document.querySelectorAll('.filter-btn');
 let marsDates = []
 let formSubmittedWhileLoading = null
 
@@ -13,6 +13,7 @@ function updateUserCity(city) {
 //Create object to store API parameters 
 const parameterData = {
     mars: {
+        terrestrial_date: [],
         atmoOpacities: [],
         minAirTemp: [],
         maxAirTemp: [],
@@ -37,12 +38,30 @@ nasaAPI
         solsArray.sort((a, b) => new Date(b.First_UTC) - new Date(a.First_UTC));
 
         const last7Sols = solsArray.slice(0, 7);
+        console.log(last7Sols)
 
         // // Extract the terrestrial_date from the Mars API data
-        marsDates = last7Sols.map(sol => sol.terrestrial_date);
+        marsDates = last7Sols.map(sol => {
+            const dateParts = sol.terrestrial_date.split('-'); // Split the date string
+            const year = dateParts[0];
+            const month = dateParts[1];
+            const day = dateParts[2];
+
+            // Define an array of month names
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            
+            // Reformat the date as 'DD Mon YYYY'
+            return `${day} ${monthNames[parseInt(month, 10) - 1]} ${year}`;
+        });
         console.log(marsDates);
 
+         // Populate the buttons with terrestrial dates
+         buttons.forEach((button, index) => {
+             button.textContent = marsDates[index];
+         });
+
         //Fill parameterData object with obtained data for both Mars and Earth
+        parameterData.mars.terrestrial_date = last7Sols.map(sol => sol.terrestrial_date)
         parameterData.mars.atmoOpacities = last7Sols.map(sol => sol.atmo_opacity)
         parameterData.mars.minAirTemp = last7Sols.map(sol => sol.min_temp)
         parameterData.mars.maxAirTemp = last7Sols.map(sol => sol.max_temp)
