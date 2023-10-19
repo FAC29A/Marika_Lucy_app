@@ -1,46 +1,46 @@
-// Define the default city
-const defaultCity = 'London';
+ // Define the default city
+ const defaultCity = 'London';
 
-// Set userCity to the default city initially
-let userCity = defaultCity;
-
-// Function to update userCity with user input
-function updateUserCity(city) {
-    userCity = city;
-}
-
-// Asynchronously fetches historical weather data for the specified city.
-async function handleWeatherFormSubmission(event) {
-    event.preventDefault(); // Prevent the default form submission behavior.
-
-    // Retrieve the user-inputted city value.
-    const cityInput = document.getElementById('earthCityInput');
-    const cityInputValue = cityInput.value;
-
-    // Update userCity with the user's chosen city
-    updateUserCity(cityInputValue);
-
-    // Call the function to fetch weather data based on the user's chosen city.
-    fetchEarthDataForUserCity(userCity);
-}
-
-// Add event listener for when the document is completely loaded
-document.addEventListener('DOMContentLoaded', function () {
-    // Set the input field value to the default city
-    const cityInput = document.getElementById('earthCityInput');
-    cityInput.value = defaultCity;
-
-    // Attach the form submission event handler
-    const weatherForm = document.getElementById('weather-search-form');
-    weatherForm.addEventListener('submit', handleWeatherFormSubmission);
-
-    // Add an event listener to detect changes in the input field and update userCity accordingly
-    cityInput.addEventListener('input', function () {
-        updateUserCity(cityInput.value);
-    });
-});
-
-
+ // Set userCity to the default city initially
+ let userCity = defaultCity;
+ 
+ // Function to update userCity with user input
+ function updateUserCity(city) {
+     userCity = city;
+ }
+ 
+ // Asynchronously fetches historical weather data for the specified city.
+ async function handleWeatherFormSubmission(event) {
+     event.preventDefault(); // Prevent the default form submission behavior.
+ 
+     // Retrieve the user-inputted city value.
+     const cityInput = document.getElementById('earthCityInput');
+     const cityInputValue = cityInput.value;
+ 
+     // Update userCity with the user's chosen city
+     updateUserCity(cityInputValue);
+ 
+     // Call the function to fetch weather data based on the user's chosen city.
+     fetchEarthDataForUserCity(userCity);
+ }
+ 
+ // Add event listener for when the document is completely loaded
+ document.addEventListener('DOMContentLoaded', function () {
+     // Set the input field value to the default city
+     const cityInput = document.getElementById('earthCityInput');
+     cityInput.value = defaultCity;
+ 
+     // Attach the form submission event handler
+     const weatherForm = document.getElementById('weather-search-form');
+     weatherForm.addEventListener('submit', handleWeatherFormSubmission);
+ 
+     // Add an event listener to detect changes in the input field and update userCity accordingly
+     cityInput.addEventListener('input', function () {
+         updateUserCity(cityInput.value);
+     });
+ });
+ 
+ 
 // Function to populate the table with data for a specific day
 function displayWeather(dayIndex) {
     // Get the Sol data for the selected day
@@ -75,5 +75,15 @@ function displayWeather(dayIndex) {
     marsSunset.textContent = parameterData.mars.sunset[dayIndex];
 }
 
+// Add this code to update the "Earth" and "Mars" labels
+const earthHeader = document.getElementById('earthHeader');
+const marsHeader = document.getElementById('marsHeader');
 
+// Function to update the labels
+function updateLabels() {
+    earthHeader.textContent = 'Earth';
+    marsHeader.textContent = 'Mars';
+}
 
+// Call the updateLabels function when the page loads
+document.addEventListener('DOMContentLoaded', updateLabels);

@@ -41,15 +41,19 @@
         <!-- Table displaying weather info for Earth and Mars -->
         <table id="earthWeatherInfo">
             <thead>
-                <tr>
-                    <td colspan="2" id="date"></td>
-                    <td id="earthWeather"></td>
-                    <td id="marsWeather"></td>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Earth data is being filled using IDs, Mars data placeholders are kept empty for now -->
-                
+                <thead>
+                    <tr>
+                        <td colspan="2" id="date"></td>
+                        <td colspan="2"></td> <!-- Add an empty cell for alignment -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="2" id="earthHeader">Earth</td>
+                        <td colspan="2" id="marsHeader">Mars</td>
+                    </tr>
+                <tbody>
+                    <!-- <tr><td colspan="2" id="date"></td></tr> -->
                 <!-- Air Temperature Data -->
                 <tr>
                     <td rowspan="2">Air Temperature</td>
