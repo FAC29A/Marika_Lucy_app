@@ -43,9 +43,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to populate the table with data for a specific day
 function displayWeather(dayIndex) {
-    // Update the date
+    // Get the Sol data for the selected day
+    const solData = parameterData.mars.solData[dayIndex];
+
+    // Update the date with Sol data
     const dateElement = document.getElementById('date');
-    dateElement.textContent = `Day ${dayIndex + 1}`;
+    dateElement.textContent = `Sol ${solData.sol}`;
 
     // Update Earth weather
     const earthAtmoOpacities = document.getElementById('earthAtmoOpacities');
@@ -70,7 +73,7 @@ function displayWeather(dayIndex) {
     marsSunrise.textContent = parameterData.mars.sunrise[dayIndex];
     const marsSunset = document.getElementById('marsSunset');
     marsSunset.textContent = parameterData.mars.sunset[dayIndex];
-
 }
+
 
 
