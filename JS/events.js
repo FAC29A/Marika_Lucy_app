@@ -50,13 +50,16 @@ function displayWeather(dayIndex) {
     const dateElement = document.getElementById('date');
     dateElement.textContent = `Sol ${solData.sol}`;
 
+
     // Update Earth weather
     const earthAtmoOpacities = document.getElementById('earthAtmoOpacities');
     earthAtmoOpacities.textContent = parameterData.earth.atmoOpacities[dayIndex];
     const earthMinAirTemp = document.getElementById('earthMinAirTemp');
     earthMinAirTemp.textContent = parameterData.earth.minAirTemp[dayIndex];
+    console.log(`earthMinAirTemp: ${parameterData.earth.minAirTemp[dayIndex]}`);
     const earthMaxAirTemp = document.getElementById('earthMaxAirTemp');
     earthMaxAirTemp.textContent = parameterData.earth.maxAirTemp[dayIndex];
+    console.log(`earthMaxAirTemp: ${parameterData.earth.maxAirTemp[dayIndex]}`);
     const earthSunrise = document.getElementById('earthSunrise');
     earthSunrise.textContent = parameterData.earth.sunrise[dayIndex];
     const earthSunset = document.getElementById('earthSunset');
@@ -71,8 +74,10 @@ function displayWeather(dayIndex) {
     marsMaxAirTemp.textContent = parameterData.mars.maxAirTemp[dayIndex];
     const marsSunrise = document.getElementById('marsSunrise');
     marsSunrise.textContent = parameterData.mars.sunrise[dayIndex];
+    console.log(`marsSunrise: ${parameterData.mars.sunrise[dayIndex]}`);
     const marsSunset = document.getElementById('marsSunset');
     marsSunset.textContent = parameterData.mars.sunset[dayIndex];
+    console.log(`marsSunset: ${parameterData.mars.sunset[dayIndex]}`);
 }
 
 // Add this code to update the "Earth" and "Mars" labels
