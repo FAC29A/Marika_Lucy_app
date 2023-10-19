@@ -20,7 +20,8 @@ const parameterData = {
         minAirTemp: [],
         maxAirTemp: [],
         sunrise: [],
-        sunset: []
+        sunset: [],
+        solData: []
     },
     earth: {
         atmoOpacities: [],
@@ -59,6 +60,8 @@ nasaAPI
         // Populate the buttons with terrestrial dates
         buttons.forEach((button, index) => {
             button.textContent = marsDates[index];
+            console.log("Mars Parameter Data:", parameterData.mars);
+
         });
 
         // Fill parameterData object with obtained data for both Mars and Earth
@@ -68,6 +71,7 @@ nasaAPI
         parameterData.mars.maxAirTemp = last7Sols.map(sol => sol.max_temp);
         parameterData.mars.sunrise = last7Sols.map(sol => sol.sunrise);
         parameterData.mars.sunset = last7Sols.map(sol => sol.sunset);
+        parameterData.mars.solData = last7Sols;
 
         // Set the flag to indicate that marsDates is ready
         marsDatesReady = true;
@@ -153,12 +157,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to update table cells based on the selected index
 function updateTableData(index) {
+    const solData = parameterData.mars.solData[index];
+
     // Update the Earth data cells
+    const solNumber = parameterData.mars.solData[index].sol; 
+    document.getElementById('soleDate').textContent = `SOL ${solNumber}`;
     document.getElementById('earthMinAirTemp').textContent = parameterData.earth.minAirTemp[index];
     document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
     document.getElementById('earthAtmoOpacities').textContent = parameterData.earth.atmoOpacities[index];
-    document.getElementById('earthSunrise').textContent = parameterData.earth.sunrise[index];
-    document.getElementById('earthSunset').textContent = parameterData.earth.sunset[index];
+    document.getElementById('earthSunrise').textContent = parameterData.earth.sunrise[index].replace(" AM", "").replace(" PM", "");
+    document.getElementById('earthSunset').textContent = parameterData.earth.sunset[index].replace(" AM", "").replace(" PM", "");
+
 
     // Update the Mars data cells
     document.getElementById('marsMinAirTemp').textContent = parameterData.mars.minAirTemp[index];
@@ -176,4 +185,4 @@ buttons.forEach((button, index) => {
     });
 });
 
-  
+
