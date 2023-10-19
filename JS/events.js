@@ -1,69 +1,73 @@
-const apiKey = 'a711839e0ec942c4b97225522231610';
-const apiUrl = 'http://api.weatherapi.com/v1/history.json';
-const DEFAULT_CITY = 'London'; // Default city set to London
+// Define the default city
+const defaultCity = 'London';
 
-const parameterData = {
-    mars: {
-        atmoOpacities: [],
-        minAirTemp: [],
-        maxAirTemp: [],
-        sunrise: [],
-        sunset: []
-    },
-    earth: {
-        atmoOpacities: [],
-        minAirTemp: [],
-        maxAirTemp: [],
-        sunrise: [],
-        sunset: []
-    }
-};
+// Set userCity to the default city initially
+let userCity = defaultCity;
 
-fetch("https://mars.nasa.gov/rss/api/?feed=weather&category=msl&feedtype=json")
-    .then(response => response.json())
-    .then(marsData => {
-        // Process Mars data
-        const solsArray = marsData.soles;
-        solsArray.sort((a, b) => new Date(b.First_UTC) - new Date(a.First_UTC));
-        const last7Sols = solsArray.slice(0, 7);
-        const marsDates = last7Sols.map(sol => sol.terrestrial_date);
-        parameterData.mars.atmoOpacities = last7Sols.map(sol => sol.atmo_opacity);
-        parameterData.mars.minAirTemp = last7Sols.map(sol => sol.min_temp);
-        parameterData.mars.maxAirTemp = last7Sols.map(sol => sol.max_temp);
-        parameterData.mars.sunrise = last7Sols.map(sol => sol.sunrise);
-        parameterData.mars.sunset = last7Sols.map(sol => sol.sunset);
+// Function to update userCity with user input
+function updateUserCity(city) {
+    userCity = city;
+}
 
-        return fetchEarthDataForMarsDates(marsDates, apiKey, apiUrl, userCity);
-    })
-    .then(() => {
-        displayWeather();
-    })
-    .catch(error => console.error('Error:', error));
+// Asynchronously fetches historical weather data for the specified city.
+async function handleWeatherFormSubmission(event) {
+    event.preventDefault(); // Prevent the default form submission behavior.
 
-async function fetchEarthDataForMarsDates(marsDates, apiKey, apiUrl, userCity) {
-    for (const marsDate of marsDates) {
-        const queryParams = {
-            key: apiKey,
-            q: userCity,
-            dt: marsDate
-        };
+    // Retrieve the user-inputted city value.
+    const cityInput = document.getElementById('earthCityInput');
+    const cityInputValue = cityInput.value;
 
-        const url = new URL(apiUrl);
-        url.search = new URLSearchParams(queryParams);
+    // Update userCity with the user's chosen city
+    updateUserCity(cityInputValue);
 
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const earthData = await response.json();
-            parameterData.earth.atmoOpacities.push(earthData.forecast.forecastday[0].day.condition.text);
-            parameterData.earth.minAirTemp.push(earthData.forecast.forecastday[0].day.mintemp_c);
-            parameterData.earth.maxAirTemp.push(earthData.forecast.forecastday[0].day.maxtemp_c);
-            parameterData.earth.sunrise.push(earthData.forecast.forecastday[0].astro.sunrise);
-            parameterData.earth.sunset.push(earthData.forecast.forecastday[0].astro.sunset);
-        } catch (error) {
-            console.error('Fetch error:', error);
-        }
-    }
+    // Call the function to fetch weather data based on the user's chosen city.
+    fetchEarthDataForUserCity(userCity);
+}
+
+// Add event listener for when the document is completely loaded
+document.addEventListener('DOMContentLoaded', function () {
+    // Set the input field value to the default city
+    const cityInput = document.getElementById('earthCityInput');
+    cityInput.value = defaultCity;
+
+    // Attach the form submission event handler
+    const weatherForm = document.getElementById('weather-search-form');
+    weatherForm.addEventListener('submit', handleWeatherFormSubmission);
+
+    // Add an event listener to detect changes in the input field and update userCity accordingly
+    cityInput.addEventListener('input', function () {
+        updateUserCity(cityInput.value);
+    });
+});
+
+
+// Function to populate the table with data for a specific day
+function displayWeather(dayIndex) {
+    // Update the date
+    const dateElement = document.getElementById('date');
+    dateElement.textContent = `Day ${dayIndex + 1}`;
+
+    // Update Earth weather
+    const earthAtmoOpacities = document.getElementById('earthAtmoOpacities');
+    earthAtmoOpacities.textContent = parameterData.earth.atmoOpacities[dayIndex];
+    const earthMinAirTemp = document.getElementById('earthMinAirTemp');
+    earthMinAirTemp.textContent = parameterData.earth.minAirTemp[dayIndex];
+    const earthMaxAirTemp = document.getElementById('earthMaxAirTemp');
+    earthMaxAirTemp.textContent = parameterData.earth.maxAirTemp[dayIndex];
+    const earthSunrise = document.getElementById('earthSunrise');
+    earthSunrise.textContent = parameterData.earth.sunrise[dayIndex];
+    const earthSunset = document.getElementById('earthSunset');
+    earthSunset.textContent = parameterData.earth.sunset[dayIndex];
+
+    // Update Mars weather
+    const marsAtmoOpacities = document.getElementById('marsAtmoOpacities');
+    marsAtmoOpacities.textContent = parameterData.mars.atmoOpacities[dayIndex];
+    const marsMinAirTemp = document.getElementById('marsMinAirTemp');
+    marsMinAirTemp.textContent = parameterData.mars.minAirTemp[dayIndex];
+    const marsMaxAirTemp = document.getElementById('marsMaxAirTemp');
+    marsMaxAirTemp.textContent = parameterData.mars.maxAirTemp[dayIndex];
+    const marsSunrise = document.getElementById('marsSunrise');
+    marsSunrise.textContent = parameterData.mars.sunrise[dayIndex];
+    const marsSunset = document.getElementById('marsSunset');
+    marsSunset.textContent = parameterData.mars.sunset[dayIndex];
 }

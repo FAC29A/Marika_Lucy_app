@@ -29,66 +29,59 @@
 
         <!-- Buttons to select specific days -->
         <section class="date-buttons">
-            <button class="filter-btn">1</button>
-            <button class="filter-btn">2</button>
-            <button class="filter-btn">3</button>
-            <button class="filter-btn">4</button>
-            <button class="filter-btn">5</button>
-            <button class="filter-btn">6</button>
-            <button class="filter-btn">7</button>
+            <button class="filter-btn" onclick="displayWeather(0)">1</button>
+            <button class="filter-btn" onclick="displayWeather(1)">2</button>
+            <button class="filter-btn" onclick="displayWeather(2)">3</button>
+            <button class="filter-btn" onclick="displayWeather(3)">4</button>
+            <button class="filter-btn" onclick="displayWeather(4)">5</button>
+            <button class="filter-btn" onclick="displayWeather(5)">6</button>
+            <button class="filter-btn" onclick="displayWeather(6)">7</button>
         </section>
 
         <!-- Table displaying weather info for Earth and Mars -->
         <table id="earthWeatherInfo">
             <thead>
                 <tr>
-                    <th colspan="2"></th>
-                    <th>Earth</th>
-                    <th>Mars</th>
+                    <td colspan="2" id="date"></td>
+                    <td id="earthWeather"></td>
+                    <td id="marsWeather"></td>
                 </tr>
             </thead>
             <tbody>
-                <!-- Earth data is being filled using IDs, Mars data placeholders are kept emptyfor now -->
+                <!-- Earth data is being filled using IDs, Mars data placeholders are kept empty for now -->
                 
                 <!-- Air Temperature Data -->
                 <tr>
                     <td rowspan="2">Air Temperature</td>
                     <td>Min.</td>
-                    <td data-title="Earth" id="earthMinTemperature"></td>
-                    <td data-title="Mars"></td>
+                    <td data-title="Earth" id="earthMinAirTemp"></td>
+                    <td data-title="Mars" id="marsMinAirTemp"></td>
                 </tr>
                 <tr>
                     <td>Max.</td>
-                    <td data-title="Earth" id="earthMaxTemperature"></td>
-                    <td data-title="Mars"></td>
+                    <td data-title="Earth" id="earthMaxAirTemp"></td>
+                    <td data-title="Mars" id="marsMaxAirTemp"></td>
                 </tr>
 
                 <!-- Atmospheric Opacity Data -->
                 <tr>
                     <td>Atmospheric Opacity</td>
-                    <td data-title="Earth"></td>
-                    <td data-title="Mars"></td>
-                </tr>
-                <tr>
-                    <td>Max.</td>
-                    <td data-title="Earth" id="earthAvgGroundTemperature"></td>
-                    <td data-title="Mars"></td>
+                    <td data-title="Earth" id="earthAtmoOpacities"></td>
+                    <td data-title="Mars" id="marsAtmoOpacities"></td>
                 </tr>
 
                 <!-- Sunrise Data -->
                 <tr>
                     <td>Sunrise</td>
-                    <td></td>
                     <td data-title="Earth" id="earthSunrise"></td>
-                    <td data-title="Mars"></td>
+                    <td data-title="Mars" id="marsSunrise"></td>
                 </tr>
 
                 <!-- Sunset Data -->
                 <tr>
                     <td>Sunset</td>
-                    <td></td>
                     <td data-title="Earth" id="earthSunset"></td>
-                    <td data-title="Mars"></td>
+                    <td data-title="Mars" id="marsSunset"></td>
                 </tr>
             </tbody>
         </table>        
@@ -104,7 +97,5 @@
     <!-- JavaScript Files for Application Functionality -->
     <script src="./JS/events.js"></script> 
     <script src="./JS/script.js"></script>
-       
-    
 </body>
 </html>
