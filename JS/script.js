@@ -17,6 +17,7 @@ const parameterData = {
         atmoOpacities: [],
         minAirTemp: [],
         maxAirTemp: [],
+        // pressure: [],
         sunrise: [],
         sunset: []
     }

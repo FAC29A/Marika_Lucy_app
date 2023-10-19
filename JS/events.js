@@ -70,4 +70,7 @@ function displayWeather(dayIndex) {
     marsSunrise.textContent = parameterData.mars.sunrise[dayIndex];
     const marsSunset = document.getElementById('marsSunset');
     marsSunset.textContent = parameterData.mars.sunset[dayIndex];
+
 }
+
+
