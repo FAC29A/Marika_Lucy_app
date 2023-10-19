@@ -1,0 +1,29 @@
+/* General styles for the loading container */
+#loadingIndicator {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* A semi-transparent black */
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Styles for the spinner */
+#loadingIndicator::before {
+    content: '';
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-top: 8px solid #fff; /* Top border will have color to differentiate */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
