@@ -32,7 +32,10 @@ const parameterData = {
     }
 };
 
+
+
 // MARS API
+document.getElementById('loadingIndicator').style.display = 'block';
 nasaAPI
     .then((response) => response.json())
     .then((marsData) => {
@@ -80,11 +83,20 @@ nasaAPI
         if (formSubmittedWhileLoading) {
             handleWeatherFormSubmission(formSubmittedWhileLoading.event, marsDates);
         }
+        // Stop the loading indicator after processing the data
+        document.getElementById('loadingIndicator').style.display = 'none';
+        
     })
     .catch((error) => console.log(error));
+    // Stop the loading indicator in case of error
+    document.getElementById('loadingIndicator').style.display = 'none';
 
 async function handleWeatherFormSubmission(event, marsDates) {
     event.preventDefault();
+
+     // Start the loading indicator
+     document.getElementById('loadingIndicator').style.display = 'flex';
+     await new Promise(resolve => setTimeout(resolve, 1000)); 
 
     const cityInput = document.getElementById('earthCityInput');
     const cityInputValue = cityInput.value;
@@ -94,10 +106,16 @@ async function handleWeatherFormSubmission(event, marsDates) {
 
         const promises = marsDates.map((marsDate, dayIndex) => fetchWeatherForCity(userCity, marsDate, dayIndex));
         await Promise.all(promises); // Wait for all fetches to complete
+
+        // Stop the loading indicator after all fetches are done
+        document.getElementById('loadingIndicator').style.display = 'none';
     } else {
+        // Stop the loading indicator after all fetches are done
+        document.getElementById('loadingIndicator').style.display = 'none';
         alert("Please enter a valid city name.");
     }
 }
+
 
 async function fetchWeatherForCity(city, marsDate, dayIndex) {
     const queryParams = {
@@ -123,8 +141,10 @@ async function fetchWeatherForCity(city, marsDate, dayIndex) {
         parameterData.earth.maxAirTemp[dayIndex] = data.forecast.forecastday[0].day.maxtemp_c;
         parameterData.earth.sunrise[dayIndex] = data.forecast.forecastday[0].astro.sunrise;
         parameterData.earth.sunset[dayIndex] = data.forecast.forecastday[0].astro.sunset;
+        document.getElementById('loadingIndicator').style.display = 'none';
     } catch (error) {
         console.error('Fetch error:', error);
+        document.getElementById('loadingIndicator').style.display = 'none';
 
         // Clear the arrays for this city and Mars date combination
         parameterData.earth.atmoOpacities[dayIndex] = null;
