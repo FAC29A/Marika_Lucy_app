@@ -20,7 +20,7 @@
                 <section id="earth-location-search">
                     <label for="earthCityInput">Enter a city on Earth: </label>
                     <input type="text" id="earthCityInput" placeholder="Enter city">
-                    <button type="submit" id="getEarthWeatherButton">Search</button>
+                    <button id="getEarthWeatherButton">Search</button>
                 </section>
             </form>
         </section>
@@ -29,75 +29,62 @@
 
         <!-- Buttons to select specific days -->
         <section class="date-buttons">
-            <button class="filter-btn">1</button>
-            <button class="filter-btn">2</button>
-            <button class="filter-btn">3</button>
-            <button class="filter-btn">4</button>
-            <button class="filter-btn">5</button>
-            <button class="filter-btn">6</button>
-            <button class="filter-btn">7</button>
+            <button class="filter-btn"> Day 1</button>
+            <button class="filter-btn">Day 2</button>
+            <button class="filter-btn">Day 3</button>
+            <button class="filter-btn">Day 4</button>
+            <button class="filter-btn">Day 5</button>
+            <button class="filter-btn">Day 6</button>
+            <button class="filter-btn">Day 7</button>
         </section>
 
         <!-- Table displaying weather info for Earth and Mars -->
         <table id="earthWeatherInfo">
             <thead>
-                <tr>
-                    <th colspan="2"></th>
-                    <th>Earth</th>
-                    <th>Mars</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Earth data is being filled using IDs, Mars data placeholders are kept with number 12 for now -->
-                
+                <thead>
+                    <tr>
+                        <td colspan="2" id="date"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="2" id="earthHeader">Earth</td>
+                        <td colspan="2" id="marsHeader">Mars</td>
+                    </tr>
+                <tbody>
+            
                 <!-- Air Temperature Data -->
                 <tr>
                     <td rowspan="2">Air Temperature</td>
                     <td>Min.</td>
-                    <td data-title="Earth" id="earthMinTemperature"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Earth" id="earthMinAirTemp"></td>
+                    <td data-title="Mars" id="marsMinAirTemp"></td>
                 </tr>
                 <tr>
                     <td>Max.</td>
-                    <td data-title="Earth" id="earthMaxTemperature"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Earth" id="earthMaxAirTemp"></td>
+                    <td data-title="Mars" id="marsMaxAirTemp"></td>
                 </tr>
 
-                <!-- Ground Temperature Data -->
+                <!-- Atmospheric Opacity Data -->
                 <tr>
-                    <td rowspan="2">Ground Temperature</td>
-                    <td>Min.</td>
-                    <td data-title="Earth"></td>
-                    <td data-title="Mars">12</td>
-                </tr>
-                <tr>
-                    <td>Max.</td>
-                    <td data-title="Earth" id="earthAvgGroundTemperature"></td>
-                    <td data-title="Mars"12></td>
-                </tr>
-
-                <!-- Pressure Data -->
-                <tr>
-                    <td>Pressure (Pa)</td>
-                    <td></td>
-                    <td data-title="Earth" id="earthPressure"></td>
-                    <td data-title="Mars">12</td>
+                    <td>Atmospheric Opacity</td>
+                    <td data-title="Earth" id="earthAtmoOpacities"></td>
+                    <td data-title="Mars" id="marsAtmoOpacities"></td>
                 </tr>
 
                 <!-- Sunrise Data -->
                 <tr>
                     <td>Sunrise</td>
-                    <td></td>
                     <td data-title="Earth" id="earthSunrise"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Mars" id="marsSunrise"></td>
                 </tr>
 
                 <!-- Sunset Data -->
                 <tr>
                     <td>Sunset</td>
-                    <td></td>
                     <td data-title="Earth" id="earthSunset"></td>
-                    <td data-title="Mars">12</td>
+                    <td data-title="Mars" id="marsSunset"></td>
                 </tr>
             </tbody>
         </table>        
