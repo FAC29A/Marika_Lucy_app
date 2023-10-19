@@ -1,16 +1,18 @@
 const apiKey = 'a711839e0ec942c4b97225522231610';
 const apiUrl = 'http://api.weatherapi.com/v1/history.json';
-const nasaAPI = fetch("https://mars.nasa.gov/rss/api/?feed=weather&category=msl&feedtype=json")
+const nasaAPI = fetch("https://mars.nasa.gov/rss/api/?feed=weather&category=msl&feedtype=json");
 const defaultCity = 'London'; // Default city set to London
 const buttons = document.querySelectorAll('.filter-btn');
-let marsDates = []
-let formSubmittedWhileLoading = null
+let marsDates = [];
+let marsDatesReady = false; 
+let userCity = defaultCity; 
+let formSubmittedWhileLoading = null; 
 
 function updateUserCity(city) {
     userCity = city;
 }
 
-//Create object to store API parameters 
+// Create object to store API parameters 
 const parameterData = {
     mars: {
         terrestrial_date: [],
@@ -20,8 +22,7 @@ const parameterData = {
         sunrise: [],
         sunset: []
     },
-    earth:
-    {
+    earth: {
         atmoOpacities: [],
         minAirTemp: [],
         maxAirTemp: [],
@@ -38,9 +39,9 @@ nasaAPI
         solsArray.sort((a, b) => new Date(b.First_UTC) - new Date(a.First_UTC));
 
         const last7Sols = solsArray.slice(0, 7);
-        console.log(last7Sols)
+        console.log(last7Sols);
 
-        // // Extract the terrestrial_date from the Mars API data
+        // Extract the terrestrial_date from the Mars API data
         marsDates = last7Sols.map(sol => {
             const dateParts = sol.terrestrial_date.split('-'); // Split the date string
             const year = dateParts[0];
@@ -49,24 +50,24 @@ nasaAPI
 
             // Define an array of month names
             const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            
+
             // Reformat the date as 'DD Mon YYYY'
             return `${day} ${monthNames[parseInt(month, 10) - 1]} ${year}`;
         });
         console.log(marsDates);
 
-         // Populate the buttons with terrestrial dates
-         buttons.forEach((button, index) => {
-             button.textContent = marsDates[index];
-         });
+        // Populate the buttons with terrestrial dates
+        buttons.forEach((button, index) => {
+            button.textContent = marsDates[index];
+        });
 
-        //Fill parameterData object with obtained data for both Mars and Earth
-        parameterData.mars.terrestrial_date = last7Sols.map(sol => sol.terrestrial_date)
-        parameterData.mars.atmoOpacities = last7Sols.map(sol => sol.atmo_opacity)
-        parameterData.mars.minAirTemp = last7Sols.map(sol => sol.min_temp)
-        parameterData.mars.maxAirTemp = last7Sols.map(sol => sol.max_temp)
-        parameterData.mars.sunrise = last7Sols.map(sol => sol.sunrise)
-        parameterData.mars.sunset = last7Sols.map(sol => sol.sunset)
+        // Fill parameterData object with obtained data for both Mars and Earth
+        parameterData.mars.terrestrial_date = last7Sols.map(sol => sol.terrestrial_date);
+        parameterData.mars.atmoOpacities = last7Sols.map(sol => sol.atmo_opacity);
+        parameterData.mars.minAirTemp = last7Sols.map(sol => sol.min_temp);
+        parameterData.mars.maxAirTemp = last7Sols.map(sol => sol.max_temp);
+        parameterData.mars.sunrise = last7Sols.map(sol => sol.sunrise);
+        parameterData.mars.sunset = last7Sols.map(sol => sol.sunset);
 
         // Set the flag to indicate that marsDates is ready
         marsDatesReady = true;
@@ -87,15 +88,14 @@ async function handleWeatherFormSubmission(event, marsDates) {
     if (cityInputValue) {
         updateUserCity(cityInputValue);
 
-        const promises = marsDates.map(marsDate => fetchWeatherForCity(userCity, marsDate));
+        const promises = marsDates.map((marsDate, dayIndex) => fetchWeatherForCity(userCity, marsDate, dayIndex));
         await Promise.all(promises); // Wait for all fetches to complete
-
     } else {
         alert("Please enter a valid city name.");
     }
 }
 
-async function fetchWeatherForCity(city, marsDate) {
+async function fetchWeatherForCity(city, marsDate, dayIndex) {
     const queryParams = {
         key: apiKey,
         q: city,
@@ -113,22 +113,21 @@ async function fetchWeatherForCity(city, marsDate) {
         const data = await response.json();
         console.log('Weather data for date', marsDate, 'in', city, data);
 
-         // Clear the arrays for this city and Mars date combination
-         parameterData.earth.atmoOpacities = [];
-         parameterData.earth.minAirTemp = [];
-         parameterData.earth.maxAirTemp = [];
-         parameterData.earth.sunrise = [];
-         parameterData.earth.sunset = [];
- 
-         // Add new data for the city and Mars date
-
-        parameterData.earth.atmoOpacities.push(data.forecast.forecastday[0].day.condition.text);
-        parameterData.earth.minAirTemp.push(data.forecast.forecastday[0].day.mintemp_c);
-        parameterData.earth.maxAirTemp.push(data.forecast.forecastday[0].day.maxtemp_c);
-        parameterData.earth.sunrise.push(data.forecast.forecastday[0].astro.sunrise);
-        parameterData.earth.sunset.push(data.forecast.forecastday[0].astro.sunset);
+        // Update the arrays for Earth with data for the selected day (dayIndex)
+        parameterData.earth.atmoOpacities[dayIndex] = data.forecast.forecastday[0].day.condition.text;
+        parameterData.earth.minAirTemp[dayIndex] = data.forecast.forecastday[0].day.mintemp_c;
+        parameterData.earth.maxAirTemp[dayIndex] = data.forecast.forecastday[0].day.maxtemp_c;
+        parameterData.earth.sunrise[dayIndex] = data.forecast.forecastday[0].astro.sunrise;
+        parameterData.earth.sunset[dayIndex] = data.forecast.forecastday[0].astro.sunset;
     } catch (error) {
         console.error('Fetch error:', error);
+
+        // Clear the arrays for this city and Mars date combination
+        parameterData.earth.atmoOpacities[dayIndex] = null;
+        parameterData.earth.minAirTemp[dayIndex] = null;
+        parameterData.earth.maxAirTemp[dayIndex] = null;
+        parameterData.earth.sunrise[dayIndex] = null;
+        parameterData.earth.sunset[dayIndex] = null;
     }
 }
 
@@ -140,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const weatherForm = document.getElementById('weather-search-form');
     weatherForm.addEventListener('submit', (event) => {
         if (marsDatesReady) {
-            handleWeatherFormSubmission(event, marsDates)
+            handleWeatherFormSubmission(event, marsDates);
         } else {
             // If marsDates is not ready, store the form submission data
             formSubmittedWhileLoading = { event, marsDates };
@@ -152,9 +151,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-//FOR MARIKA TO PLAY
+// Function to update table cells based on the selected index
+function updateTableData(index) {
+    // Update the Earth data cells
+    document.getElementById('earthMinAirTemp').textContent = parameterData.earth.minAirTemp[index];
+    document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
+    document.getElementById('earthAtmoOpacities').textContent = parameterData.earth.atmoOpacities[index];
+    document.getElementById('earthSunrise').textContent = parameterData.earth.sunrise[index];
+    document.getElementById('earthSunset').textContent = parameterData.earth.sunset[index];
 
-// Assuming you have an element with the ID "atmoOpacityElement" in your HTML
-const atmoOpacityElement = document.getElementById('atmoOpacityElement');
-atmoOpacityElement.textContent = parameterData.earth.atmoOpacities[0]; // Replace [0] with the appropriate index
+    // Update the Mars data cells
+    document.getElementById('marsMinAirTemp').textContent = parameterData.mars.minAirTemp[index];
+    document.getElementById('marsMaxAirTemp').textContent = parameterData.mars.maxAirTemp[index];
+    document.getElementById('marsAtmoOpacities').textContent = parameterData.mars.atmoOpacities[index];
+    document.getElementById('marsSunrise').textContent = parameterData.mars.sunrise[index];
+    document.getElementById('marsSunset').textContent = parameterData.mars.sunset[index];
+}
 
+// Attach click event listeners to the buttons
+buttons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        // Call the updateTableData function with the clicked button's index
+        updateTableData(index);
+    });
+});
+
+  
