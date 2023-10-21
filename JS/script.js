@@ -15,7 +15,7 @@ let formSubmittedWhileLoading = null;
 let currentBackgroundImage = '';
 const DEFAULT_IMAGE = 'mars';
 
-// =================  DOM elements ================= 
+// =================  DOM ELEMENTS ================= 
 const buttons = document.querySelectorAll('.filter-btn');
 const backgroundContainer = document.querySelector('.background-container');
 
