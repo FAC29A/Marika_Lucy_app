@@ -1,16 +1,42 @@
+const unsplashAccessKey = 'NnSrMv3s7SE9KwQjg_9bQ4f1LXaYD-fWiZw9McMEZRY';
 const apiKey = 'a711839e0ec942c4b97225522231610';
 const apiUrl = 'http://api.weatherapi.com/v1/history.json';
 const nasaAPI = fetch("https://mars.nasa.gov/rss/api/?feed=weather&category=msl&feedtype=json");
 const defaultCity = 'London'; // Default city set to London
 const buttons = document.querySelectorAll('.filter-btn');
+const backgroundContainer = document.querySelector('.background-container');
+const cityInput = document.getElementById('city-input');
 let marsDates = [];
 let marsDatesReady = false; 
 let userCity = defaultCity; 
 let formSubmittedWhileLoading = null; 
+let searching = false; 
 
 function updateUserCity(city) {
     userCity = city;
+    // Clear any existing error message
+    clearErrorMessage();
+    // Update the background image based on the user's input city
+    fetchUnsplashImage();
 }
+
+// Function to clear the error message
+function clearErrorMessage() {
+    const errorElement = document.querySelector('.error-message');
+    if (errorElement) {
+        errorElement.style.display = 'none';
+    }
+}
+
+// Function to display the error message
+function displayErrorMessage(message) {
+    const errorElement = document.querySelector('.error-message');
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+}
+
 
 // Create object to store API parameters 
 const parameterData = {
@@ -30,8 +56,51 @@ const parameterData = {
         sunrise: [],
         sunset: []
     }
-};
+}
 
+// Function to update the background image based on the user's input city
+async function fetchUnsplashImage() {
+    const cityName = userCity;
+
+    const unsplashUrl = `https://api.unsplash.com/search/photos?query=${cityName}&orientation=landscape`;
+    console.log('Requesting Unsplash URL:', unsplashUrl);
+
+    try {
+        const response = await fetch(unsplashUrl, {
+            headers: {
+                Authorization: `Client-ID ${unsplashAccessKey}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch image from Unsplash: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        if (!data.results || data.results.length === 0) {
+            throw new Error(`No images found for ${cityName} on Unsplash.`);
+        }
+
+        const imageUrl = data.results[0].urls.full; // Get the URL of the first image
+
+        // Set the fetched image as the background of the container
+        const backgroundContainer = document.querySelector('.background-image');
+        backgroundContainer.style.backgroundImage = `url(${imageUrl})`;
+
+        // Set the background size 
+        backgroundContainer.style.backgroundSize = 'cover'; 
+        backgroundContainer.style.backgroundRepeat = 'no-repeat'; 
+    } catch (error) {
+        console.error('Error fetching image from Unsplash:', error);
+    
+        if (searching) {
+            displayErrorMessage('Failed to fetch an image from Unsplash. Please try again later.');
+        }
+
+        // Set Mars image as a fallback
+        setBackgroundImage('mars.jpg');
+    }
+}
 
 
 // MARS API
@@ -90,6 +159,8 @@ nasaAPI
     .catch((error) => console.log(error));
     // Stop the loading indicator in case of error
     document.getElementById('loadingIndicator').style.display = 'none';
+
+
 
 async function handleWeatherFormSubmission(event, marsDates) {
     event.preventDefault();
@@ -155,6 +226,7 @@ async function fetchWeatherForCity(city, marsDate, dayIndex) {
     }
 }
 
+
 // Add an event listener for the form submission
 document.addEventListener('DOMContentLoaded', function () {
     const cityInput = document.getElementById('earthCityInput');
@@ -162,8 +234,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const weatherForm = document.getElementById('weather-search-form');
     weatherForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the form from submitting by default
+
+        // Check if the user has entered a city name
+        const userCity = cityInput.value.trim();
+        if (userCity === '') {
+            alert('Please enter a city name before searching.');
+            return; // Do not proceed with the search if no city is entered
+        }
+
         if (marsDatesReady) {
             handleWeatherFormSubmission(event, marsDates);
+            
+            // Update the background image based on the user's input city
+            fetchUnsplashImage(userCity);
         } else {
             // If marsDates is not ready, store the form submission data
             formSubmittedWhileLoading = { event, marsDates };
@@ -174,6 +258,8 @@ document.addEventListener('DOMContentLoaded', function () {
         updateUserCity(cityInput.value);
     });
 });
+
+
 
 // Function to update table cells based on the selected index
 function updateTableData(index) {
@@ -197,12 +283,11 @@ function updateTableData(index) {
     document.getElementById('marsSunset').textContent = parameterData.mars.sunset[index];
 }
 
-// Attach click event listeners to the buttons
+
+//Attach click event listeners to the buttons
 buttons.forEach((button, index) => {
     button.addEventListener('click', () => {
         // Call the updateTableData function with the clicked button's index
         updateTableData(index);
     });
 });
-
-
