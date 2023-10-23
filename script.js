@@ -7,9 +7,9 @@ const nasaAPI = fetch("https://mars.nasa.gov/rss/api/?feed=weather&category=msl&
 // ================= CONSTANTS & VARIABLES ================= 
 const defaultCity = 'London'; // Default city is set to London
 let marsDates = [];
-let marsDatesReady = false; 
-let userCity = defaultCity; 
-let formSubmittedWhileLoading = null; 
+let marsDatesReady = false;
+let userCity = defaultCity;
+let formSubmittedWhileLoading = null;
 
 // Store the current background image URL
 let currentBackgroundImage = '';
@@ -46,9 +46,9 @@ function displayErrorMessage(message) {
     }
 }
 
- //Set the background image
- function setBackgroundImage(imageUrl) {
-    
+//Set the background image
+function setBackgroundImage(imageUrl) {
+
     if (!imageUrl) {
         imageUrl = DEFAULT_IMAGE;
     }
@@ -102,7 +102,7 @@ async function fetchUnsplashImage() {
                 Authorization: `Client-ID ${unsplashAccessKey}`,
             },
         });
-        
+
         // If the fetch isn't successful, retrieve a Mars image
         if (!response.ok) {
             // throw new Error(`Failed to fetch image from NASA ${response.status} ${response.statusText}`);
@@ -117,116 +117,116 @@ async function fetchUnsplashImage() {
             displayErrorMessage(`No images found for ${cityName} on Unsplash.`);
             await fetchMarsImage();
             return;
-        } 
-            const imageUrl = data.results[0].urls.full; // Get the URL of the first image
+        }
+        const imageUrl = data.results[0].urls.full; // Get the URL of the first image
 
         // Store the fetched image URL as the current background image
         currentBackgroundImage = imageUrl;
 
-           // Set the fetched image as the background of the container
-           setBackgroundImage(imageUrl);
-        
-        } catch (error) {
-            console.error('Error fetching image from Unsplash:', error);   
-            await fetchMarsImage(); // When there's an error, fetch Mars image from Unsplash
-        }
+        // Set the fetched image as the background of the container
+        setBackgroundImage(imageUrl);
+
+    } catch (error) {
+        console.error('Error fetching image from Unsplash:', error);
+        await fetchMarsImage(); // When there's an error, fetch Mars image from Unsplash
     }
+}
 
 
-    //Fetch an image of Mars 
-    async function fetchMarsImage() {
-        const unsplashUrl = `https://api.unsplash.com/search/photos?query=mars&orientation=landscape`;
-    
-        try {
-            const response = await fetch(unsplashUrl, {
-                headers: {
-                    Authorization: `Client-ID ${unsplashAccessKey}`,
-                },
-            });
-    
-            if (!response.ok) {
-                console.error(`Failed to fetch Mars image from Unsplash: ${response.status} ${response.statusText}`);
-                throw new Error('Failed to fetch Mars image from Unsplash.');
-            }
-    
-            const data = await response.json();
-            const imageUrl = data.results[0].urls.full; // Get the URL of the first Mars image
-    
-            // Set the fetched Mars image as the background
-            setBackgroundImage(imageUrl);
-    
-        } catch (marsError) {
-            console.error('Error fetching Mars image from Unsplash:', marsError);
-            
-            // Displaying an error message to the user
-            displayErrorMessage('We encountered an error while fetching a background image. Please try again later.');
-        }
-    }
+//Fetch an image of Mars 
+async function fetchMarsImage() {
+    const unsplashUrl = `https://api.unsplash.com/search/photos?query=mars&orientation=landscape`;
 
-    async function handleWeatherFormSubmission(event, marsDates) {
-        event.preventDefault();
-    
-         // Start the loading indicator
-         document.getElementById('loadingIndicator').style.display = 'flex';
-         await new Promise(resolve => setTimeout(resolve, 1000)); 
-    
-        const cityInput = document.getElementById('earthCityInput');
-        const cityInputValue = cityInput.value;
-    
-        if (cityInputValue) {
-            updateUserCity(cityInputValue);
-    
-            const promises = marsDates.map((marsDate, dayIndex) => fetchWeatherForCity(userCity, marsDate, dayIndex));
-            await Promise.all(promises); // Wait for all fetches to complete
-    
-            // Stop the loading indicator after all fetches are done
-            document.getElementById('loadingIndicator').style.display = 'none';
-        } else {
-            // Stop the loading indicator after all fetches are done
-            document.getElementById('loadingIndicator').style.display = 'none';
-            alert("Please enter a valid city name.");
-            await fetchMarsImage();
+    try {
+        const response = await fetch(unsplashUrl, {
+            headers: {
+                Authorization: `Client-ID ${unsplashAccessKey}`,
+            },
+        });
+
+        if (!response.ok) {
+            console.error(`Failed to fetch Mars image from Unsplash: ${response.status} ${response.statusText}`);
+            throw new Error('Failed to fetch Mars image from Unsplash.');
         }
+
+        const data = await response.json();
+        const imageUrl = data.results[0].urls.full; // Get the URL of the first Mars image
+
+        // Set the fetched Mars image as the background
+        setBackgroundImage(imageUrl);
+
+    } catch (marsError) {
+        console.error('Error fetching Mars image from Unsplash:', marsError);
+
+        // Displaying an error message to the user
+        displayErrorMessage('We encountered an error while fetching a background image. Please try again later.');
     }
-    
-    
-    async function fetchWeatherForCity(city, marsDate, dayIndex) {
-        const queryParams = {
-            key: apiKey,
-            q: city,
-            dt: marsDate,
-        };
-    
-        const url = new URL(apiUrl);
-        url.search = new URLSearchParams(queryParams);
-    
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            console.log('Weather data for date', marsDate, 'in', city, data);
-    
-            // Update the arrays for Earth with data for the selected day (dayIndex)
-            parameterData.earth.atmoOpacities[dayIndex] = data.forecast.forecastday[0].day.condition.text;
-            parameterData.earth.minAirTemp[dayIndex] = data.forecast.forecastday[0].day.mintemp_c;
-            parameterData.earth.maxAirTemp[dayIndex] = data.forecast.forecastday[0].day.maxtemp_c;
-            parameterData.earth.sunrise[dayIndex] = data.forecast.forecastday[0].astro.sunrise;
-            parameterData.earth.sunset[dayIndex] = data.forecast.forecastday[0].astro.sunset;
-            document.getElementById('loadingIndicator').style.display = 'none';
-        } catch (error) {
-            console.error('Fetch error:', error);
-            document.getElementById('loadingIndicator').style.display = 'none';
-    
-            // Clear the arrays for this city and Mars date combination
-            parameterData.earth.atmoOpacities[dayIndex] = null;
-            parameterData.earth.minAirTemp[dayIndex] = null;
-            parameterData.earth.maxAirTemp[dayIndex] = null;
-            parameterData.earth.sunrise[dayIndex] = null;
-            parameterData.earth.sunset[dayIndex] = null;
+}
+
+async function handleWeatherFormSubmission(event, marsDates) {
+    event.preventDefault();
+
+    // Start the loading indicator
+    document.getElementById('loadingIndicator').style.display = 'flex';
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const cityInput = document.getElementById('earthCityInput');
+    const cityInputValue = cityInput.value;
+
+    if (cityInputValue) {
+        updateUserCity(cityInputValue);
+
+        const promises = marsDates.map((marsDate, dayIndex) => fetchWeatherForCity(userCity, marsDate, dayIndex));
+        await Promise.all(promises); // Wait for all fetches to complete
+
+        // Stop the loading indicator after all fetches are done
+        document.getElementById('loadingIndicator').style.display = 'none';
+    } else {
+        // Stop the loading indicator after all fetches are done
+        document.getElementById('loadingIndicator').style.display = 'none';
+        alert("Please enter a valid city name.");
+        await fetchMarsImage();
+    }
+}
+
+
+async function fetchWeatherForCity(city, marsDate, dayIndex) {
+    const queryParams = {
+        key: apiKey,
+        q: city,
+        dt: marsDate,
+    };
+
+    const url = new URL(apiUrl);
+    url.search = new URLSearchParams(queryParams);
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        const data = await response.json();
+        console.log('Weather data for date', marsDate, 'in', city, data);
+
+        // Update the arrays for Earth with data for the selected day (dayIndex)
+        parameterData.earth.atmoOpacities[dayIndex] = data.forecast.forecastday[0].day.condition.text;
+        parameterData.earth.minAirTemp[dayIndex] = data.forecast.forecastday[0].day.mintemp_c;
+        parameterData.earth.maxAirTemp[dayIndex] = data.forecast.forecastday[0].day.maxtemp_c;
+        parameterData.earth.sunrise[dayIndex] = data.forecast.forecastday[0].astro.sunrise;
+        parameterData.earth.sunset[dayIndex] = data.forecast.forecastday[0].astro.sunset;
+        document.getElementById('loadingIndicator').style.display = 'none';
+    } catch (error) {
+        console.error('Fetch error:', error);
+        document.getElementById('loadingIndicator').style.display = 'none';
+
+        // Clear the arrays for this city and Mars date combination
+        parameterData.earth.atmoOpacities[dayIndex] = null;
+        parameterData.earth.minAirTemp[dayIndex] = null;
+        parameterData.earth.maxAirTemp[dayIndex] = null;
+        parameterData.earth.sunrise[dayIndex] = null;
+        parameterData.earth.sunset[dayIndex] = null;
     }
+}
 
 
 
@@ -282,11 +282,11 @@ nasaAPI
         }
         // Stop the loading indicator after processing the data
         document.getElementById('loadingIndicator').style.display = 'none';
-        
+
     })
     .catch((error) => console.log(error));
-    // Stop the loading indicator in case of error
-    document.getElementById('loadingIndicator').style.display = 'none';
+// Stop the loading indicator in case of error
+document.getElementById('loadingIndicator').style.display = 'none';
 
 
 
@@ -302,14 +302,14 @@ document.addEventListener('DOMContentLoaded', function () {
     weatherForm.addEventListener('submit', async (event) => {
         event.preventDefault(); // Prevent the form from submitting by default
 
-        
-            // Check if the user has entered a city name
-            const userCity = cityInput.value.trim();
-            if (userCity === '') {
-                alert('Please enter a city name before searching.');
-                await fetchMarsImage();
-                return; // Do not proceed with the search if no city is entered
-            }
+
+        // Check if the user has entered a city name
+        const userCity = cityInput.value.trim();
+        if (userCity === '') {
+            alert('Please enter a city name before searching.');
+            await fetchMarsImage();
+            return; // Do not proceed with the search if no city is entered
+        }
 
         if (marsDatesReady) {
             isSearchButtonClicked = true; // Set the flag when the "Search" button is clicked
@@ -341,7 +341,7 @@ function updateTableData(index) {
     const solData = parameterData.mars.solData[index];
 
     // Update the Earth data cells
-    const solNumber = parameterData.mars.solData[index].sol; 
+    const solNumber = parameterData.mars.solData[index].sol;
     document.getElementById('soleDate').textContent = `SOL ${solNumber}`;
     document.getElementById('earthMinAirTemp').textContent = parameterData.earth.minAirTemp[index];
     document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
