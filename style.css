@@ -79,6 +79,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
 }
+
 /* Style Sol */
 .sol {
     align-items: left;
@@ -115,7 +116,8 @@ body {
 }
 
 .title .content {
-    padding: 0.4rem 3rem; /* Adjust this value to control the width of the rounded background */
+    padding: 0.4rem 3rem;
+    /* Adjust this value to control the width of the rounded background */
     display: inline-block;
     border-radius: 2rem;
     margin-bottom: 10px;
@@ -241,6 +243,7 @@ table td {
     table {
         border: 1px solid #cccccc;
     }
+
     table thead tr {
         display: none;
     }
@@ -279,7 +282,7 @@ table td {
     }
 
     .td-bg {
-        background-color:rgba(0, 0, 0, 0.2);
+        background-color: rgba(0, 0, 0, 0.2);
         color: #fff;
     }
 
@@ -287,7 +290,8 @@ table td {
 
 @media (max-width: 760px) {
     .title .content {
-        padding: 0.4rem 1rem; /* Adjust this value to control the width of the rounded background */
+        padding: 0.4rem 1rem;
+        /* Adjust this value to control the width of the rounded background */
     }
 }
 
@@ -313,7 +317,8 @@ footer {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 80%;
-    margin: 20px auto; /* Adjust this margin as needed */
+    margin: 20px auto;
+    /* Adjust this margin as needed */
     position: sticky;
     bottom: 0;
     font-size: .8em;
@@ -322,26 +327,32 @@ footer {
 
 /* Style your credits container (the .footer div) */
 .footer {
-    justify-content: space-between; /* Arrange the credits in a horizontal row */
+    justify-content: space-between;
+    /* Arrange the credits in a horizontal row */
 }
 
 /* Style the individual credit sections */
-.credits, .copy {
-    flex: 1; /* Allow each section to take up equal horizontal space */
+.credits,
+.copy {
+    flex: 1;
+    /* Allow each section to take up equal horizontal space */
 }
 
 /* Style the <p> elements in the credits */
 .credits p {
-    margin: 0; /* Remove default margin on <p> elements */
-    padding: 5px; /* Add spacing between credits */
+    margin: 0;
+    /* Remove default margin on <p> elements */
+    padding: 5px;
+    /* Add spacing between credits */
 }
 
 a {
     text-decoration: none;
-    color:#555555; /* Change this to your desired color */
-  }
-  
-  a:hover {
-    color: #3399FF; /* Change this to your desired hover color */
-  }
-  
+    color: #555555;
+    /* Change this to your desired color */
+}
+
+a:hover {
+    color: #3399FF;
+    /* Change this to your desired hover color */
+}
