@@ -61,10 +61,6 @@
     /* Place it behind other content */
 }
 
-/* .footer {
-    background-color: aqua;
-} */
-
 /* Reset some default styles */
 body,
 h1,
@@ -92,6 +88,7 @@ body {
 /* Center the main container and give it a semi-transparent white background */
 .main {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -106,6 +103,7 @@ body {
     text-align: center;
     width: 80%;
     margin: auto;
+    flex: 1;
 }
 
 .title {
@@ -294,14 +292,56 @@ table td {
 }
 
 /* Style the footer */
+/* .footer {
+
+
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80%;
+    margin: 20px auto;
+    bottom: 0;
+} */
+
+/* Add styles to your footer */
 footer {
-
-
-    background-color: #333;
-    color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80%;
+    margin: 20px auto; /* Adjust this margin as needed */
+    position: sticky;
+    bottom: 0;
+    font-size: .8em;
+    color: #555555;
 }
 
-/* Add hover effect to footer links */
-footer a:hover {
-    text-decoration: underline;
+/* Style your credits container (the .footer div) */
+.footer {
+    justify-content: space-between; /* Arrange the credits in a horizontal row */
 }
+
+/* Style the individual credit sections */
+.credits, .copy {
+    flex: 1; /* Allow each section to take up equal horizontal space */
+}
+
+/* Style the <p> elements in the credits */
+.credits p {
+    margin: 0; /* Remove default margin on <p> elements */
+    padding: 5px; /* Add spacing between credits */
+}
+
+a {
+    text-decoration: none;
+    color:#555555; /* Change this to your desired color */
+  }
+  
+  a:hover {
+    color: #3399FF; /* Change this to your desired hover color */
+  }
+  
