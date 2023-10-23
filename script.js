@@ -1,7 +1,7 @@
 // ================= API ================= 
 const unsplashAccessKey = 'NnSrMv3s7SE9KwQjg_9bQ4f1LXaYD-fWiZw9McMEZRY';
 const apiKey = 'a711839e0ec942c4b97225522231610';
-const apiUrl = 'http://api.weatherapi.com/v1/history.json';
+const apiUrl = 'https://api.weatherapi.com/v1/history.json';
 const nasaAPI = fetch("https://mars.nasa.gov/rss/api/?feed=weather&category=msl&feedtype=json");
 
 // ================= CONSTANTS & VARIABLES ================= 
