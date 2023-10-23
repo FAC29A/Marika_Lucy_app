@@ -1,3 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* .container {
+    background: #45CE30;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+} */
+
 /* General styles for the loading container */
 #loadingIndicator {
     display: none;
@@ -6,7 +20,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* A semi-transparent black */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* A semi-transparent black */
     z-index: 1000;
     align-items: center;
     justify-content: center;
@@ -16,7 +31,8 @@
 #loadingIndicator::before {
     content: '';
     border: 8px solid rgba(0, 0, 0, 0.1);
-    border-top: 8px solid #fff; /* Top border will have color to differentiate */
+    border-top: 8px solid #fff;
+    /* Top border will have color to differentiate */
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -24,10 +40,14 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+    0% {
+        transform: rotate(0deg);
+    }
 
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 .background-image {
     position: fixed;
@@ -37,5 +57,251 @@
     height: 100%;
     background-size: cover;
     background-position: center;
-    z-index: -1; /* Place it behind other content */
+    z-index: -1;
+    /* Place it behind other content */
+}
+
+/* .footer {
+    background-color: aqua;
+} */
+
+/* Reset some default styles */
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+/* Style Sol */
+.sol {
+    align-items: left;
+    color: #b30021;
+}
+
+/* Center the main container and give it a semi-transparent white background */
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f2f2f2;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80%;
+    margin: auto;
+}
+
+.title {
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0;
+}
+
+.title .content {
+    padding: 0.4rem 3rem; /* Adjust this value to control the width of the rounded background */
+    display: inline-block;
+    border-radius: 2rem;
+    margin-bottom: 10px;
+}
+
+.title.earth .content {
+    background-color: #86e49d;
+    color: #006b21;
+}
+
+.title.mars .content {
+    background-color: #d893a3;
+    color: #b30021;
+}
+
+
+/* Style the header */
+header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+/* Style the city search section */
+#earth-weather {
+    margin: 20px 0;
+}
+
+label {
+    font-size: 16px;
+    color: #555;
+}
+
+#earthCityInput {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 5px;
+}
+
+#getEarthWeatherButton {
+    background-color: #0074d9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#getEarthWeatherButton:hover {
+    background-color: #0056a7;
+}
+
+/* Style the filter buttons */
+.date-buttons {
+    /* display: flex; */
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.filter-btn {
+    background-color: #ccc;
+    color: #555;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-btn:hover {
+    background-color: #999;
+}
+
+/* Highlight selected button */
+.filter-btn.selected {
+    background-color: #0074d9;
+    color: #fff;
+}
+
+/* Style the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+    color: #555555;
+}
+
+td {
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    padding: 1em;
+    text-align: center;
+}
+
+table th {
+    color: #fff;
+    font-weight: bold;
+}
+
+table td {
+    width: 10%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 420px) {
+
+    table {
+        border: 1px solid #cccccc;
+    }
+    table thead tr {
+        display: none;
+    }
+
+    table tr {
+        display: block;
+    }
+
+    table th,
+    table td {
+        padding: .5em;
+        border: none;
+    }
+
+    table td {
+        width: auto;
+        text-align: right;
+        display: block;
+    }
+
+    table td::before {
+        content: attr(data-title);
+        float: left;
+
+    }
+
+    /* Change the color of "Mars" and "Earth" titles */
+    table td[data-title='Mars']::before {
+        color: #b30021;
+        font-weight: bold;
+    }
+
+    table td[data-title='Earth']::before {
+        color: #006b21;
+        font-weight: bold;
+    }
+
+    .td-bg {
+        background-color:rgba(0, 0, 0, 0.2);
+        color: #fff;
+    }
+
+}
+
+@media (max-width: 760px) {
+    .title .content {
+        padding: 0.4rem 1rem; /* Adjust this value to control the width of the rounded background */
+    }
+}
+
+/* Style the footer */
+footer {
+
+
+    background-color: #333;
+    color: #fff;
+}
+
+/* Add hover effect to footer links */
+footer a:hover {
+    text-decoration: underline;
 }

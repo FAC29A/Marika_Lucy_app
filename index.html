@@ -12,104 +12,116 @@
 
 <body>
     <!-- "Skip to main content" link for better keyboard accessibility -->
-    <a href="#earth-weather" class="skip-link" tabindex="0" style="position: absolute; top: -40px; left: 0; z-index: 1000;">Skip to main content</a>
-    
+    <a href="#earth-weather" class="skip-link" tabindex="0"
+        style="position: absolute; top: -40px; left: 0; z-index: 1000;">Skip to main content</a>
+
     <!-- Title -->
     <header>
         <h1>Weather App</h1>
     </header>
 
     <main>
-    <div class="background-image"></div>
-    <div class="container">
-    
-        <!-- City Search Section to input the name of a city on Earth -->
-        <section id="earth-weather">
-            <form id="weather-search-form">
-                <label for="earthCityInput">Enter a city on Earth: </label>
-                <input type="text" id="earthCityInput" placeholder="Enter city" aria-required="true">
-                <button id="getEarthWeatherButton" aria-label="Search for city's weather">Search</button>
-            </form>
-        </section>
+        <div class="background-image"></div>
 
-        <div id="locationDisplay" aria-live="polite" tabindex="0"></div>
-        <div id="loadingIndicator" style="display: none;" aria-live="assertive" tabindex="0">Loading...</div>
+        <!-- Main card -->
+        <div class="container">
 
-        <!-- Buttons to select specific days -->
-        <section class="date-buttons" aria-label="Date filters">
-            <button class="filter-btn" aria-label="Date filter 1"></button>
-            <button class="filter-btn" aria-label="Date filter 2"></button>
-            <button class="filter-btn" aria-label="Date filter 3"></button>
-            <button class="filter-btn" aria-label="Date filter 4"></button>
-            <button class="filter-btn" aria-label="Date filter 5"></button>
-            <button class="filter-btn" aria-label="Date filter 6"></button>
-            <button class="filter-btn" aria-label="Date filter 7"></button>
-        </section>
+            <!-- City Search Section to input the name of a city on Earth -->
+            <section id="earth-weather">
+                <form id="weather-search-form">
+                    <label for="earthCityInput">Enter a city on Earth: </label>
+                    <input type="text" id="earthCityInput" placeholder="Enter city" aria-required="true">
+                    <button id="getEarthWeatherButton" aria-label="Search for city's weather">Search</button>
+                </form>
+            </section>
 
-        <!-- Table displaying weather info for Earth and Mars -->
-        <table id="earthWeatherInfo">
-            <thead>
+            <div id="locationDisplay" aria-live="polite" tabindex="0"></div>
+            <div id="loadingIndicator" style="display: none;" aria-live="assertive" tabindex="0">Loading...</div>
+
+            <!-- Buttons to select specific days -->
+            <section class="date-buttons" aria-label="Date filters">
+                <button class="filter-btn" aria-label="Date filter 1"></button>
+                <button class="filter-btn" aria-label="Date filter 2"></button>
+                <button class="filter-btn" aria-label="Date filter 3"></button>
+                <button class="filter-btn" aria-label="Date filter 4"></button>
+                <button class="filter-btn" aria-label="Date filter 5"></button>
+                <button class="filter-btn" aria-label="Date filter 6"></button>
+                <button class="filter-btn" aria-label="Date filter 7"></button>
+            </section>
+
+            <div class="sol" id="soleDate"></div>
+
+            <!-- Table displaying weather info for Earth and Mars -->
+            <table id="earthWeatherInfo">
                 <thead>
-                    <tr>
-                        <td colspan="2" id="soleDate"></td>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th colspan="2"></th>
+                            <th class="title earth" id="earthHeader">
+                                <div class="content">Earth</div>
+                            </th>
+                            <th class="title mars" id="marsHeader">
+                                <div class="content">Mars</div>
+                            </th>
+                        </tr>
+                    </thead>
                 <tbody>
+                    
+                    <!-- Air Temperature Data -->
                     <tr>
-                        <td colspan="2" id="earthHeader">Earth</td>
-                        <td colspan="2" id="marsHeader">Mars</td>
+                        <td class="td-bg" rowspan="2">Air Temperature</td>
+                        <td class="td-bg">Min.</td>
+                        <td data-title="Earth" id="earthMinAirTemp"></td>
+                        <td data-title="Mars" id="marsMinAirTemp"></td>
                     </tr>
-                <tbody>
-            
-                <!-- Air Temperature Data -->
-                <tr>
-                    <td rowspan="2">Air Temperature</td>
-                    <td>Min.</td>
-                    <td data-title="Earth" id="earthMinAirTemp"></td>
-                    <td data-title="Mars" id="marsMinAirTemp"></td>
-                </tr>
-                <tr>
-                    <td>Max.</td>
-                    <td data-title="Earth" id="earthMaxAirTemp"></td>
-                    <td data-title="Mars" id="marsMaxAirTemp"></td>
-                </tr>
+                    <tr>
+                        <td class="td-bg">Max.</td>
+                        <td data-title="Earth" id="earthMaxAirTemp"></td>
+                        <td data-title="Mars" id="marsMaxAirTemp"></td>
+                    </tr>
 
-                <!-- Atmospheric Opacity Data -->
-                <tr>
-                    <td>Atmospheric Opacity</td>
-                    <td data-title="Earth" id="earthAtmoOpacities"></td>
-                    <td data-title="Mars" id="marsAtmoOpacities"></td>
-                </tr>
+                    <!-- Atmospheric Opacity Data -->
+                    <tr>
+                        <td class="td-bg" colspan="2">Atmospheric Opacity</td>
+                        <td data-title="Earth" id="earthAtmoOpacities"></td>
+                        <td data-title="Mars" id="marsAtmoOpacities"></td>
+                    </tr>
 
-                <!-- Sunrise Data -->
-                <tr>
-                    <td>Sunrise</td>
-                    <td data-title="Earth" id="earthSunrise"></td>
-                    <td data-title="Mars" id="marsSunrise"></td>
-                </tr>
+                    <!-- Sunrise Data -->
+                    <tr>
+                        <td class="td-bg" colspan="2">Sunrise</td>
+                        <td data-title="Earth" id="earthSunrise"></td>
+                        <td data-title="Mars" id="marsSunrise"></td>
+                    </tr>
 
-                <!-- Sunset Data -->
-                <tr>
-                    <td>Sunset</td>
-                    <td data-title="Earth" id="earthSunset"></td>
-                    <td data-title="Mars" id="marsSunset"></td>
-                </tr>
-            </tbody>
-        </table> 
-    </div>       
+                    <!-- Sunset Data -->
+                    <tr>
+                        <td class="td-bg" colspan="2">Sunset</td>
+                        <td data-title="Earth" id="earthSunset"></td>
+                        <td data-title="Mars" id="marsSunset"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </main>
-    
+
 
     <!-- Footer containing credit and copyright information -->
     <footer>
-        <p>Weather report obtained through the <a href="https://mars.nasa.gov/msl/home/" target="_blank">Mars Curiosity Rover</a>.</p>
-        <p>Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a></p>
-        <p>Photo by <a href="https://unsplash.com" target="_blank">Unsplash</a></p>
-        <p>Copyright @ 2023 Lucía Fernandez & Marika Bertelli</p>
+        <div class="footer">
+            <p>Weather report obtained through the <a href="https://mars.nasa.gov/msl/home/" target="_blank">Mars
+                    Curiosity
+                    Rover</a>.</p>
+            <p>Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a></p>
+            <p>Photo by <a href="https://unsplash.com" target="_blank">Unsplash</a></p>
+            <p>Copyright @ 2023 Lucía Fernandez & Marika Bertelli</p>
+        </div>
     </footer>
 
     <!-- JavaScript Files for Application Functionality -->
-    <script src="./JS/script.js"></script> 
-    
+    <script src="./JS/script.js"></script>
+
 </body>
+
 </html>
