@@ -3,10 +3,6 @@
 ## Introduction
 
 <img width="1004" alt="Screenshot weather app" src="https://github.com/FAC29A/Marika_Lucy_app/assets/126022615/155ff19e-dad9-4bf4-b8b6-8135af7da9d6">
-#
-#
-#
-
 
 The weather between planets differ greatly. We thought that by comparing commonly checked parameters like sunrise or temperatures between Mars and any place on Earth, it could help us grasp these vast differences even more. How different is the weather a given day in Mars to that same day in your hometown? 
 
