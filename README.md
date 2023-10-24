@@ -10,6 +10,22 @@
 
 ## User Journey
 
+1. **Open the Application**
+   - Access the app using your browser.
+
+2. **Input Your Preferred City**
+   - In the 'Enter a city on Earth' section, write down your preferred city in the search bar.
+   - Click 'Search' to begin.
+   - There will be a 'loading' animation while the data for your selection is being fetched.
+
+3. **Select date**
+   - After the loading period, click on the available dates to see the weather parameters appear in the table.
+
+4. **Read more about the APIs used**
+   - Click on the names of the APIs at the bottom of the page to read more about them.
+
+5. **Repeat or Reset**
+   - To start the process again, enter a new city in the search bar repeating the steps below or reload the site. 
 
 
 ## Technologies
