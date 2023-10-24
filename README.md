@@ -2,6 +2,13 @@
 
 ## Introduction
 
+The weather between planets differ greatly. We thought that by comparing commonly checked parameters like sunrise or temperatures between Mars and any place on Earth, it could help us grasp these vast differences even more. How different is the weather a given day in Mars to that same day in your hometown? 
+
+Our aim with this project was to bridge the gap between the weather in both planets, as different as they are from each other, and help us understand these differences better by looking at data. We attempted this by creating a weather app that offers something simple, yet different. 
+
+Our app fetches data from the NASA's Rover Environmental Monitoring Station (REMS) aboard the Mars Science Laboratory. This data comes to us earthlings with a significant delay, since this data needs to be processed first. This way, our app offers the most updated data at all times, displaying the latest 7 days of mars weather. 
+
+
 <img width="1004" alt="Screenshot weather app" src="https://github.com/FAC29A/Marika_Lucy_app/assets/126022615/155ff19e-dad9-4bf4-b8b6-8135af7da9d6">
 
 
