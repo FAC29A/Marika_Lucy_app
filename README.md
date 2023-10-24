@@ -6,7 +6,7 @@
 
 
 
-
+---
 
 ## User Journey
 
@@ -27,6 +27,13 @@
 5. **Repeat or Reset**
    - To start the process again, enter a new city in the search bar repeating the steps below or reload the site. 
 
+---
+
+## API List
+
+- Mars NASA API, MARS ROVER (REMS) open data.
+- Weather API
+- Unsplash API
 
 ## Technologies
 
@@ -34,6 +41,7 @@
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
+---
 
 ## Installation
 
@@ -55,7 +63,7 @@ cd Marika_Lucy_app
 - Open the `index.html` file in your preferred web browser.
 - The application should load and be ready for use.
 
-
+---
 
 ## Authors
 
