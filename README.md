@@ -2,7 +2,9 @@
 
 ## Introduction
 
-[![Weather APP](https://fac29a.github.io/Marika_Lucy_app/)](<img src="https://example.com/path/to/screenshot.png" alt="Weather app screenshoot" width="200"/>)
+<img width="1004" alt="Screenshot weather app" src="https://github.com/FAC29A/Marika_Lucy_app/assets/126022615/155ff19e-dad9-4bf4-b8b6-8135af7da9d6">
+
+
 
 
 
