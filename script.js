@@ -349,7 +349,6 @@ function updateTableData(index) {
     document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
     document.getElementById('earthAtmoOpacities').textContent = parameterData.earth.atmoOpacities[index];
     document.getElementById('earthSunrise').textContent = parameterData.earth.sunrise[index].replace(" AM", "").replace(" PM", "");
-    
     document.getElementById('earthSunset').textContent = convertiedEarthSunrise + ":" + earthSunset[1];
 
 
