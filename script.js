@@ -339,6 +339,8 @@ buttons.forEach((button, index) => {
 // Function to update table cells based on the selected index
 function updateTableData(index) {
     const solData = parameterData.mars.solData[index];
+    const earthSunset = parameterData.earth.sunset[index].replace(" AM", "").replace(" PM", "").split(":");
+    const convertiedEarthSunrise = Number(earthSunset[0])+12;
 
     // Update the Earth data cells
     const solNumber = parameterData.mars.solData[index].sol;
@@ -347,7 +349,8 @@ function updateTableData(index) {
     document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
     document.getElementById('earthAtmoOpacities').textContent = parameterData.earth.atmoOpacities[index];
     document.getElementById('earthSunrise').textContent = parameterData.earth.sunrise[index].replace(" AM", "").replace(" PM", "");
-    document.getElementById('earthSunset').textContent = parameterData.earth.sunset[index].replace(" AM", "").replace(" PM", "");
+    
+    document.getElementById('earthSunset').textContent = convertiedEarthSunrise + ":" + earthSunset[1];
 
 
     // Update the Mars data cells
