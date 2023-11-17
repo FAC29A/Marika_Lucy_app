@@ -1,7 +1,7 @@
 // ================= API ================= 
 const unsplashAccessKey = 'NnSrMv3s7SE9KwQjg_9bQ4f1LXaYD-fWiZw9McMEZRY';
-const apiKey = 'a711839e0ec942c4b97225522231610';
-const apiUrl = 'https://api.weatherapi.com/v1/history.json';
+const opencageApiKey = '19f4cb4132ce48a2a78bc47868811d46';
+const apiUrl = 'https://archive-api.open-meteo.com/v1/archive';
 const nasaAPI = fetch("https://mars.nasa.gov/rss/api/?feed=weather&category=msl&feedtype=json");
 
 // ================= CONSTANTS & VARIABLES ================= 
@@ -27,6 +27,64 @@ function updateUserCity(city) {
     clearErrorMessage();
     fetchUnsplashImage();
 }
+
+async function getGeolocation(city) {
+    const geocodingUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=${opencageApiKey}`;
+
+    try {
+        const response = await fetch(geocodingUrl);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch geolocation data: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const firstResult = data.results[0];
+
+        if (firstResult) {
+            const { lat, lng } = firstResult.geometry;
+            return { latitude: lat, longitude: lng };
+        } else {
+            throw new Error(`No results found for the city: ${city}`);
+        }
+    } catch (error) {
+        console.error('Error fetching geolocation data:', error);
+        throw error;
+    }
+}
+
+const fetchData = async (latitude, longitude, startDate, endDate) => {
+    const params = {
+        latitude,
+        longitude,
+        start_date: startDate,
+        end_date: endDate,
+        hourly: 'temperature_2m', // Adjust based on your needs
+        elevation: 90, // Example elevation, adjust as needed
+        temperature_unit: 'celsius',
+        wind_speed_unit: 'kmh',
+        precipitation_unit: 'mm',
+        timezone: 'GMT', // Adjust based on your needs
+    };
+
+    const url = new URL(apiUrl);
+    url.search = new URLSearchParams(params);
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Open-meteo API data:', data);
+
+        // Process data as needed for your application
+    } catch (error) {
+        console.error('Error fetching data from open-meteo API:', error);
+    }
+};
 
 // ================= UTILITY FUNCTIONS ================= 
 // Clear the error message
@@ -174,13 +232,20 @@ async function handleWeatherFormSubmission(event, marsDates) {
     const cityInputValue = cityInput.value;
 
     if (cityInputValue) {
-        updateUserCity(cityInputValue);
+        try {
+            const { latitude, longitude } = await getGeolocation(cityInputValue);
 
-        const promises = marsDates.map((marsDate, dayIndex) => fetchWeatherForCity(userCity, marsDate, dayIndex));
-        await Promise.all(promises); // Wait for all fetches to complete
+            const promises = marsDates.map((marsDate, dayIndex) =>
+                fetchWeather(latitude, longitude, marsDate, dayIndex)
+            );
+            await Promise.all(promises); // Wait for all fetches to complete
 
-        // Stop the loading indicator after all fetches are done
-        document.getElementById('loadingIndicator').style.display = 'none';
+            // Stop the loading indicator after all fetches are done
+            document.getElementById('loadingIndicator').style.display = 'none';
+        } catch (error) {
+            console.error('Error processing form submission:', error);
+            // Handle the error, display a message to the user, etc.
+        }
     } else {
         // Stop the loading indicator after all fetches are done
         document.getElementById('loadingIndicator').style.display = 'none';
@@ -190,30 +255,45 @@ async function handleWeatherFormSubmission(event, marsDates) {
 }
 
 
-async function fetchWeatherForCity(city, marsDate, dayIndex) {
-    const queryParams = {
-        key: apiKey,
-        q: city,
-        dt: marsDate,
+
+
+async function fetchWeather(latitude, longitude, marsDate, dayIndex) {
+    const params = {
+        latitude,
+        longitude,
+        start_date: marsDate,
+        end_date: marsDate,
+        daily: 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset',
+        temperature_unit: 'celsius',
+        wind_speed_unit: 'kmh',
+        precipitation_unit: 'mm',
+        timezone: 'GMT',
     };
 
     const url = new URL(apiUrl);
-    url.search = new URLSearchParams(queryParams);
+    url.search = new URLSearchParams(params);
 
     try {
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
         }
+
         const data = await response.json();
-        console.log('Weather data for date', marsDate, 'in', city, data);
+        console.log('Weather data for date', marsDate, 'in', latitude, longitude, data);
 
         // Update the arrays for Earth with data for the selected day (dayIndex)
-        parameterData.earth.atmoOpacities[dayIndex] = data.forecast.forecastday[0].day.condition.text;
-        parameterData.earth.minAirTemp[dayIndex] = data.forecast.forecastday[0].day.mintemp_c;
-        parameterData.earth.maxAirTemp[dayIndex] = data.forecast.forecastday[0].day.maxtemp_c;
-        parameterData.earth.sunrise[dayIndex] = data.forecast.forecastday[0].astro.sunrise;
-        parameterData.earth.sunset[dayIndex] = data.forecast.forecastday[0].astro.sunset;
+        const dailyData = data.daily; // Access the daily object
+        if (dailyData) {
+            parameterData.earth.atmoOpacities[dayIndex] = dailyData.weather_code[0];
+            parameterData.earth.maxAirTemp[dayIndex] = dailyData.temperature_2m_max[0];
+            parameterData.earth.minAirTemp[dayIndex] = dailyData.temperature_2m_min[0];
+            parameterData.earth.sunrise[dayIndex] = dailyData.sunrise[0];
+            parameterData.earth.sunset[dayIndex] = dailyData.sunset[0];
+        } else {
+            throw new Error(`Invalid response format for date ${marsDate}`);
+        }
+
         document.getElementById('loadingIndicator').style.display = 'none';
     } catch (error) {
         console.error('Fetch error:', error);
@@ -252,8 +332,8 @@ nasaAPI
             // Define an array of month names
             const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-            // Reformat the date as 'DD Mon YYYY'
-            return `${day} ${monthNames[parseInt(month, 10) - 1]} ${year}`;
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            ;
         });
         console.log(marsDates);
 
@@ -291,7 +371,7 @@ document.getElementById('loadingIndicator').style.display = 'none';
 
 
 
-// ================= EVENT LISTENERS & INITIALIZATION ================= 
+// ================= EVENT LISTENERS & INITIALISATION ================= 
 
 // Event listener for the form submission
 document.addEventListener('DOMContentLoaded', function () {
@@ -339,8 +419,12 @@ buttons.forEach((button, index) => {
 // Function to update table cells based on the selected index
 function updateTableData(index) {
     const solData = parameterData.mars.solData[index];
-    const earthSunset = parameterData.earth.sunset[index].replace(" AM", "").replace(" PM", "").split(":");
-    const convertiedEarthSunrise = Number(earthSunset[0])+12;
+    const earthSunrise = parameterData.earth.sunrise[index];
+    const earthSunset = parameterData.earth.sunset[index];
+
+    // Convert Earth sunrise and sunset to the desired format
+    const convertedEarthSunrise = formatTime(earthSunrise);
+    const convertedEarthSunset = formatTime(earthSunset);
 
     // Update the Earth data cells
     const solNumber = parameterData.mars.solData[index].sol;
@@ -348,9 +432,8 @@ function updateTableData(index) {
     document.getElementById('earthMinAirTemp').textContent = parameterData.earth.minAirTemp[index];
     document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
     document.getElementById('earthAtmoOpacities').textContent = parameterData.earth.atmoOpacities[index];
-    document.getElementById('earthSunrise').textContent = parameterData.earth.sunrise[index].replace(" AM", "").replace(" PM", "");
-    document.getElementById('earthSunset').textContent = convertiedEarthSunrise + ":" + earthSunset[1];
-
+    document.getElementById('earthSunrise').textContent = convertedEarthSunrise;
+    document.getElementById('earthSunset').textContent = convertedEarthSunset;
 
     // Update the Mars data cells
     document.getElementById('marsMinAirTemp').textContent = parameterData.mars.minAirTemp[index];
@@ -359,6 +442,15 @@ function updateTableData(index) {
     document.getElementById('marsSunrise').textContent = parameterData.mars.sunrise[index];
     document.getElementById('marsSunset').textContent = parameterData.mars.sunset[index];
 }
+
+// Helper function to format time (AM/PM to 24-hour format)
+function formatTime(timeString) {
+    const date = new Date(timeString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours}:${minutes}`;
+}
+
 
 
 
