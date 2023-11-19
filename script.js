@@ -6,6 +6,7 @@ const nasaAPI = fetch("https://mars.nasa.gov/rss/api/?feed=weather&category=msl&
 
 // ================= CONSTANTS & VARIABLES ================= 
 const defaultCity = 'London'; // Default city is set to London
+let isSearchButtonClicked = false;
 let marsDates = [];
 let marsDatesReady = false;
 let userCity = defaultCity;
@@ -106,12 +107,17 @@ function displayErrorMessage(message) {
 
 //Set the background image
 function setBackgroundImage(imageUrl) {
+    const backgroundContainer = document.querySelector('.background-image');
+    // console.log('Background container:', backgroundContainer); // Debugging line
 
-    if (!imageUrl) {
-        imageUrl = DEFAULT_IMAGE;
+    if (!backgroundContainer) {
+        console.error('Background container not found!');
+        return;
     }
 
-    const backgroundContainer = document.querySelector('.background-image');
+    // Append a timestamp to the URL to prevent caching
+    imageUrl += `?timestamp=${new Date().getTime()}`;
+
     backgroundContainer.style.backgroundImage = `url(${imageUrl})`;
     backgroundContainer.style.backgroundSize = 'cover';
     backgroundContainer.style.backgroundRepeat = 'no-repeat';
@@ -232,6 +238,7 @@ async function handleWeatherFormSubmission(event, marsDates) {
     const cityInputValue = cityInput.value;
 
     if (cityInputValue) {
+        userCity = cityInputValue; // update userCity
         try {
             const { latitude, longitude } = await getGeolocation(cityInputValue);
 
@@ -253,8 +260,6 @@ async function handleWeatherFormSubmission(event, marsDates) {
         await fetchMarsImage();
     }
 }
-
-
 
 
 async function fetchWeather(latitude, longitude, marsDate, dayIndex) {
