@@ -54,38 +54,6 @@ async function getGeolocation(city) {
     }
 }
 
-const fetchData = async (latitude, longitude, startDate, endDate) => {
-    const params = {
-        latitude,
-        longitude,
-        start_date: startDate,
-        end_date: endDate,
-        hourly: 'temperature_2m', // Adjust based on your needs
-        elevation: 90, // Example elevation, adjust as needed
-        temperature_unit: 'celsius',
-        wind_speed_unit: 'kmh',
-        precipitation_unit: 'mm',
-        timezone: 'GMT', // Adjust based on your needs
-    };
-
-    const url = new URL(apiUrl);
-    url.search = new URLSearchParams(params);
-
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log('Open-meteo API data:', data);
-
-        // Process data as needed for your application
-    } catch (error) {
-        console.error('Error fetching data from open-meteo API:', error);
-    }
-};
 
 // ================= UTILITY FUNCTIONS ================= 
 // Clear the error message
@@ -124,7 +92,6 @@ function setBackgroundImage(imageUrl) {
 }
 
 
-
 // ================= Parameter API data storage ================= 
 const parameterData = {
     mars: {
@@ -147,6 +114,39 @@ const parameterData = {
 
 
 // ================= FETCHING FUNCTIONS ================= 
+const fetchData = async (latitude, longitude, startDate, endDate) => {
+    const params = {
+        latitude,
+        longitude,
+        start_date: startDate,
+        end_date: endDate,
+        hourly: 'temperature_2m', // Adjust based on your needs
+        elevation: 90, // Example elevation, adjust as needed
+        temperature_unit: 'celsius',
+        wind_speed_unit: 'kmh',
+        precipitation_unit: 'mm',
+        timezone: 'GMT', // Adjust based on your needs
+    };
+
+    const url = new URL(apiUrl);
+    url.search = new URLSearchParams(params);
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Open-meteo API data:', data);
+
+        // Process data as needed for your application
+    } catch (error) {
+        console.error('Error fetching data from open-meteo API:', error);
+    }
+};
+
 
 // Fetches an image from Unsplash based on the user's city input.
 async function fetchUnsplashImage() {
