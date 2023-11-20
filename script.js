@@ -91,6 +91,57 @@ function setBackgroundImage(imageUrl) {
     backgroundContainer.style.backgroundRepeat = 'no-repeat';
 }
 
+// Import the wmoDescriptions object from the weatherDescriptions module
+import { wmoDescriptions } from './weatherDescriptions.js';
+
+// Function to get weather description from a code
+function getWeatherDescription(code) {
+  return wmoDescriptions[code] || 'Unknown';
+}
+
+// Example usage
+// const description = getWeatherDescription('00'); // Assuming '00' is a valid code
+// console.log(description); // Will log the description for code '00'
+
+// Function to translate WMO code to description
+function translateWMOCodeToDescription(codeArray) {
+  // Assuming the code is the first element in the array
+  const code = codeArray.length > 0 ? codeArray[0] : null;
+  return code ? wmoDescriptions[code] : 'Unknown';
+}
+
+// Usage of translateWMOCodeToDescription function
+// const codeArray = ['00']; // Assuming an array of weather codes
+// const desc = translateWMOCodeToDescription(codeArray);
+// console.log(desc); 
+
+// Import the descriptions from the separate file
+// const wmoDescriptions = require('./weatherDescriptions.js');
+
+// // You can now use wmoDescriptions directly in this file
+// function getWeatherDescription(code) {
+//   return wmoDescriptions[code] || 'Unknown';
+// }
+
+// // Example usage
+const description = getWeatherDescription('0'); // Assuming '0' is a valid code
+console.log(description); // Will log the description for code '0'
+
+ // Import the descriptions from the separate file
+// const wmoDescriptions = require('./weatherDescriptions.js');
+
+// // Assuming the code is the first element in the array
+// function translateWMOCodeToDescription(codeArray) {
+//   const code = codeArray.length > 0 ? codeArray[0] : null;
+//   return code ? wmoDescriptions[code] || 'Unknown' : 'Unknown';
+// }
+
+// // Example usage
+// const codeArray = ['0']; // Assuming '0' is a valid code
+// const description = translateWMOCodeToDescription(codeArray);
+// console.log(description); // Will log the description for code '0'
+
+
 
 // ================= Parameter API data storage ================= 
 const parameterData = {
@@ -286,20 +337,23 @@ async function fetchWeather(latitude, longitude, marsDate, dayIndex) {
 
         const data = await response.json();
         console.log('Weather data for date', marsDate, 'in', latitude, longitude, data);
+    
 
-        // Update the arrays for Earth with data for the selected day (dayIndex)
-        const dailyData = data.daily; // Access the daily object
-        if (dailyData) {
-            parameterData.earth.atmoOpacities[dayIndex] = dailyData.weather_code[0];
+    // Update the arrays for Earth with data for the selected day (dayIndex)
+    const dailyData = data.daily; // Access the daily object
+
+      if (dailyData) {
+        const weatherDescription = await translateWMOCodeToDescription(dailyData.weather_code);
+        parameterData.earth.atmoOpacities[dayIndex] = weatherDescription;
             parameterData.earth.maxAirTemp[dayIndex] = dailyData.temperature_2m_max[0];
             parameterData.earth.minAirTemp[dayIndex] = dailyData.temperature_2m_min[0];
             parameterData.earth.sunrise[dayIndex] = dailyData.sunrise[0];
             parameterData.earth.sunset[dayIndex] = dailyData.sunset[0];
         } else {
             throw new Error(`Invalid response format for date ${marsDate}`);
-        }
-
-        document.getElementById('loadingIndicator').style.display = 'none';
+          }
+      
+          document.getElementById('loadingIndicator').style.display = 'none';
     } catch (error) {
         console.error('Fetch error:', error);
         document.getElementById('loadingIndicator').style.display = 'none';
@@ -314,10 +368,8 @@ async function fetchWeather(latitude, longitude, marsDate, dayIndex) {
 }
 
 
-
-
 // ================= NASA MARS API ================= 
-document.getElementById('loadingIndicator').style.display = 'block';
+document.getElementById('loadingIndicator').style.display = 'block'; 
 nasaAPI
     .then((response) => response.json())
     .then((marsData) => {
@@ -422,7 +474,7 @@ buttons.forEach((button, index) => {
 
 // ================= TABLE ================= 
 // Function to update table cells based on the selected index
-function updateTableData(index) {
+async function updateTableData(index) { // Make sure this is an async function
     const solData = parameterData.mars.solData[index];
     const earthSunrise = parameterData.earth.sunrise[index];
     const earthSunset = parameterData.earth.sunset[index];
@@ -432,11 +484,15 @@ function updateTableData(index) {
     const convertedEarthSunset = formatTime(earthSunset);
 
     // Update the Earth data cells
-    const solNumber = parameterData.mars.solData[index].sol;
+    const solNumber = solData.sol;
     document.getElementById('soleDate').textContent = `SOL ${solNumber}`;
     document.getElementById('earthMinAirTemp').textContent = parameterData.earth.minAirTemp[index];
     document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
-    document.getElementById('earthAtmoOpacities').textContent = parameterData.earth.atmoOpacities[index];
+    
+    // Wait for the description before updating the UI
+    const atmoOpacityDescription = await translateWMOCodeToDescription(parameterData.earth.atmoOpacities[index]);
+    document.getElementById('earthAtmoOpacities').textContent = atmoOpacityDescription;
+
     document.getElementById('earthSunrise').textContent = convertedEarthSunrise;
     document.getElementById('earthSunset').textContent = convertedEarthSunset;
 
@@ -455,7 +511,6 @@ function formatTime(timeString) {
     const minutes = date.getMinutes();
     return `${hours}:${minutes}`;
 }
-
 
 
 
