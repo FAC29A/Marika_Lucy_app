@@ -1,3 +1,5 @@
+import { wmoDescriptions } from './weatherDescriptions.js'
+
 // ================= API ================= 
 const unsplashAccessKey = 'NnSrMv3s7SE9KwQjg_9bQ4f1LXaYD-fWiZw9McMEZRY';
 const opencageApiKey = '19f4cb4132ce48a2a78bc47868811d46';
@@ -91,6 +93,28 @@ function setBackgroundImage(imageUrl) {
     backgroundContainer.style.backgroundRepeat = 'no-repeat';
 }
 
+async function translateWMOCodeToDescription(weatherCodes) {
+    try {
+        const descriptions = [];
+
+        for (const code of weatherCodes) {
+            const codeString = code.toString().padStart(2, '0'); // Ensure the code is two digits
+
+            if (wmoDescriptions[codeString]) {
+                const description = wmoDescriptions[codeString];
+                descriptions.push(description);
+            } else {
+                console.warn(`No description found for weather code: ${codeString}`);
+                descriptions.push('Unknown weather');
+            }
+        }
+
+        return descriptions;
+    } catch (error) {
+        console.error('Error translating weather code to description:', error);
+        return ['Error fetching weather description'];
+    }
+}
 
 // ================= Parameter API data storage ================= 
 const parameterData = {
@@ -112,41 +136,7 @@ const parameterData = {
     }
 }
 
-
 // ================= FETCHING FUNCTIONS ================= 
-const fetchData = async (latitude, longitude, startDate, endDate) => {
-    const params = {
-        latitude,
-        longitude,
-        start_date: startDate,
-        end_date: endDate,
-        hourly: 'temperature_2m', // Adjust based on your needs
-        elevation: 90, // Example elevation, adjust as needed
-        temperature_unit: 'celsius',
-        wind_speed_unit: 'kmh',
-        precipitation_unit: 'mm',
-        timezone: 'GMT', // Adjust based on your needs
-    };
-
-    const url = new URL(apiUrl);
-    url.search = new URLSearchParams(params);
-
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log('Open-meteo API data:', data);
-
-        // Process data as needed for your application
-    } catch (error) {
-        console.error('Error fetching data from open-meteo API:', error);
-    }
-};
-
 
 // Fetches an image from Unsplash based on the user's city input.
 async function fetchUnsplashImage() {
@@ -287,10 +277,13 @@ async function fetchWeather(latitude, longitude, marsDate, dayIndex) {
         const data = await response.json();
         console.log('Weather data for date', marsDate, 'in', latitude, longitude, data);
 
+
         // Update the arrays for Earth with data for the selected day (dayIndex)
         const dailyData = data.daily; // Access the daily object
+        const weatherDescriptions = await translateWMOCodeToDescription(dailyData.weather_code);
+
         if (dailyData) {
-            parameterData.earth.atmoOpacities[dayIndex] = dailyData.weather_code[0];
+            parameterData.earth.atmoOpacities[dayIndex] = weatherDescriptions;
             parameterData.earth.maxAirTemp[dayIndex] = dailyData.temperature_2m_max[0];
             parameterData.earth.minAirTemp[dayIndex] = dailyData.temperature_2m_min[0];
             parameterData.earth.sunrise[dayIndex] = dailyData.sunrise[0];
@@ -312,8 +305,6 @@ async function fetchWeather(latitude, longitude, marsDate, dayIndex) {
         parameterData.earth.sunset[dayIndex] = null;
     }
 }
-
-
 
 
 // ================= NASA MARS API ================= 
@@ -374,8 +365,6 @@ nasaAPI
 document.getElementById('loadingIndicator').style.display = 'none';
 
 
-
-
 // ================= EVENT LISTENERS & INITIALISATION ================= 
 
 // Event listener for the form submission
@@ -422,7 +411,9 @@ buttons.forEach((button, index) => {
 
 // ================= TABLE ================= 
 // Function to update table cells based on the selected index
-function updateTableData(index) {
+async function updateTableData(index) { // Make sure this is an async function
+    console.log('Updating table for index:', index);
+
     const solData = parameterData.mars.solData[index];
     const earthSunrise = parameterData.earth.sunrise[index];
     const earthSunset = parameterData.earth.sunset[index];
@@ -432,11 +423,12 @@ function updateTableData(index) {
     const convertedEarthSunset = formatTime(earthSunset);
 
     // Update the Earth data cells
-    const solNumber = parameterData.mars.solData[index].sol;
+    const solNumber = solData.sol;
     document.getElementById('soleDate').textContent = `SOL ${solNumber}`;
     document.getElementById('earthMinAirTemp').textContent = parameterData.earth.minAirTemp[index];
-    document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
+    document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index]
     document.getElementById('earthAtmoOpacities').textContent = parameterData.earth.atmoOpacities[index];
+
     document.getElementById('earthSunrise').textContent = convertedEarthSunrise;
     document.getElementById('earthSunset').textContent = convertedEarthSunset;
 
@@ -455,7 +447,6 @@ function formatTime(timeString) {
     const minutes = date.getMinutes();
     return `${hours}:${minutes}`;
 }
-
 
 
 
