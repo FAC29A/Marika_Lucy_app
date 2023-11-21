@@ -1,3 +1,5 @@
+import { wmoDescriptions } from './weatherDescriptions.js'
+
 // ================= API ================= 
 const unsplashAccessKey = 'NnSrMv3s7SE9KwQjg_9bQ4f1LXaYD-fWiZw9McMEZRY';
 const opencageApiKey = '19f4cb4132ce48a2a78bc47868811d46';
@@ -91,57 +93,28 @@ function setBackgroundImage(imageUrl) {
     backgroundContainer.style.backgroundRepeat = 'no-repeat';
 }
 
-// Import the wmoDescriptions object from the weatherDescriptions module
-import { wmoDescriptions } from './weatherDescriptions.js';
+async function translateWMOCodeToDescription(weatherCodes) {
+    try {
+        const descriptions = [];
 
-// Function to get weather description from a code
-function getWeatherDescription(code) {
-  return wmoDescriptions[code] || 'Unknown';
+        for (const code of weatherCodes) {
+            const codeString = code.toString().padStart(2, '0'); // Ensure the code is two digits
+
+            if (wmoDescriptions[codeString]) {
+                const description = wmoDescriptions[codeString];
+                descriptions.push(description);
+            } else {
+                console.warn(`No description found for weather code: ${codeString}`);
+                descriptions.push('Unknown weather');
+            }
+        }
+
+        return descriptions;
+    } catch (error) {
+        console.error('Error translating weather code to description:', error);
+        return ['Error fetching weather description'];
+    }
 }
-
-// Example usage
-// const description = getWeatherDescription('00'); // Assuming '00' is a valid code
-// console.log(description); // Will log the description for code '00'
-
-// Function to translate WMO code to description
-function translateWMOCodeToDescription(codeArray) {
-  // Assuming the code is the first element in the array
-  const code = codeArray.length > 0 ? codeArray[0] : null;
-  return code ? wmoDescriptions[code] : 'Unknown';
-}
-
-// Usage of translateWMOCodeToDescription function
-// const codeArray = ['00']; // Assuming an array of weather codes
-// const desc = translateWMOCodeToDescription(codeArray);
-// console.log(desc); 
-
-// Import the descriptions from the separate file
-// const wmoDescriptions = require('./weatherDescriptions.js');
-
-// // You can now use wmoDescriptions directly in this file
-// function getWeatherDescription(code) {
-//   return wmoDescriptions[code] || 'Unknown';
-// }
-
-// // Example usage
-const description = getWeatherDescription('0'); // Assuming '0' is a valid code
-console.log(description); // Will log the description for code '0'
-
- // Import the descriptions from the separate file
-// const wmoDescriptions = require('./weatherDescriptions.js');
-
-// // Assuming the code is the first element in the array
-// function translateWMOCodeToDescription(codeArray) {
-//   const code = codeArray.length > 0 ? codeArray[0] : null;
-//   return code ? wmoDescriptions[code] || 'Unknown' : 'Unknown';
-// }
-
-// // Example usage
-// const codeArray = ['0']; // Assuming '0' is a valid code
-// const description = translateWMOCodeToDescription(codeArray);
-// console.log(description); // Will log the description for code '0'
-
-
 
 // ================= Parameter API data storage ================= 
 const parameterData = {
@@ -163,41 +136,7 @@ const parameterData = {
     }
 }
 
-
 // ================= FETCHING FUNCTIONS ================= 
-const fetchData = async (latitude, longitude, startDate, endDate) => {
-    const params = {
-        latitude,
-        longitude,
-        start_date: startDate,
-        end_date: endDate,
-        hourly: 'temperature_2m', // Adjust based on your needs
-        elevation: 90, // Example elevation, adjust as needed
-        temperature_unit: 'celsius',
-        wind_speed_unit: 'kmh',
-        precipitation_unit: 'mm',
-        timezone: 'GMT', // Adjust based on your needs
-    };
-
-    const url = new URL(apiUrl);
-    url.search = new URLSearchParams(params);
-
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log('Open-meteo API data:', data);
-
-        // Process data as needed for your application
-    } catch (error) {
-        console.error('Error fetching data from open-meteo API:', error);
-    }
-};
-
 
 // Fetches an image from Unsplash based on the user's city input.
 async function fetchUnsplashImage() {
@@ -337,23 +276,23 @@ async function fetchWeather(latitude, longitude, marsDate, dayIndex) {
 
         const data = await response.json();
         console.log('Weather data for date', marsDate, 'in', latitude, longitude, data);
-    
 
-    // Update the arrays for Earth with data for the selected day (dayIndex)
-    const dailyData = data.daily; // Access the daily object
 
-      if (dailyData) {
-        const weatherDescription = await translateWMOCodeToDescription(dailyData.weather_code);
-        parameterData.earth.atmoOpacities[dayIndex] = weatherDescription;
+        // Update the arrays for Earth with data for the selected day (dayIndex)
+        const dailyData = data.daily; // Access the daily object
+        const weatherDescriptions = await translateWMOCodeToDescription(dailyData.weather_code);
+
+        if (dailyData) {
+            parameterData.earth.atmoOpacities[dayIndex] = weatherDescriptions;
             parameterData.earth.maxAirTemp[dayIndex] = dailyData.temperature_2m_max[0];
             parameterData.earth.minAirTemp[dayIndex] = dailyData.temperature_2m_min[0];
             parameterData.earth.sunrise[dayIndex] = dailyData.sunrise[0];
             parameterData.earth.sunset[dayIndex] = dailyData.sunset[0];
         } else {
             throw new Error(`Invalid response format for date ${marsDate}`);
-          }
-      
-          document.getElementById('loadingIndicator').style.display = 'none';
+        }
+
+        document.getElementById('loadingIndicator').style.display = 'none';
     } catch (error) {
         console.error('Fetch error:', error);
         document.getElementById('loadingIndicator').style.display = 'none';
@@ -369,7 +308,7 @@ async function fetchWeather(latitude, longitude, marsDate, dayIndex) {
 
 
 // ================= NASA MARS API ================= 
-document.getElementById('loadingIndicator').style.display = 'block'; 
+document.getElementById('loadingIndicator').style.display = 'block';
 nasaAPI
     .then((response) => response.json())
     .then((marsData) => {
@@ -426,8 +365,6 @@ nasaAPI
 document.getElementById('loadingIndicator').style.display = 'none';
 
 
-
-
 // ================= EVENT LISTENERS & INITIALISATION ================= 
 
 // Event listener for the form submission
@@ -475,6 +412,8 @@ buttons.forEach((button, index) => {
 // ================= TABLE ================= 
 // Function to update table cells based on the selected index
 async function updateTableData(index) { // Make sure this is an async function
+    console.log('Updating table for index:', index);
+
     const solData = parameterData.mars.solData[index];
     const earthSunrise = parameterData.earth.sunrise[index];
     const earthSunset = parameterData.earth.sunset[index];
@@ -487,11 +426,8 @@ async function updateTableData(index) { // Make sure this is an async function
     const solNumber = solData.sol;
     document.getElementById('soleDate').textContent = `SOL ${solNumber}`;
     document.getElementById('earthMinAirTemp').textContent = parameterData.earth.minAirTemp[index];
-    document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index];
-    
-    // Wait for the description before updating the UI
-    const atmoOpacityDescription = await translateWMOCodeToDescription(parameterData.earth.atmoOpacities[index]);
-    document.getElementById('earthAtmoOpacities').textContent = atmoOpacityDescription;
+    document.getElementById('earthMaxAirTemp').textContent = parameterData.earth.maxAirTemp[index]
+    document.getElementById('earthAtmoOpacities').textContent = parameterData.earth.atmoOpacities[index];
 
     document.getElementById('earthSunrise').textContent = convertedEarthSunrise;
     document.getElementById('earthSunset').textContent = convertedEarthSunset;
