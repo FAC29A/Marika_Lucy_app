@@ -1,4 +1,4 @@
-# Weather App
+# Earth meets Mars
 
 ## Introduction
 
