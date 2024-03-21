@@ -54,7 +54,7 @@ Our app fetches data from the NASA's Rover Environmental Monitoring Station (REM
 
 ## Installation
 
-To use the Marika_Lucy_app, follow these installation instructions:
+To use the Earth meets Mars app, follow these installation instructions:
 
 1. **Clone the Repository:**
 - Clone this repository to your local machine using the following command:
@@ -71,6 +71,9 @@ cd Marika_Lucy_app
 3. **Open in a Browser:**
 - Open the `index.html` file in your preferred web browser.
 - The application should load and be ready for use.
+
+Or alternatively, open it clicking [here](https://fac29a.github.io/Marika_Lucy_app/)
+
 
 ---
 
